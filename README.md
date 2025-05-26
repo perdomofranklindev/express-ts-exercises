@@ -34,7 +34,7 @@ To work on an exercise:
 
 ## Prerequisites
 
-- Node.js (v14 or higher)
+- Node.js (v20 or higher)
 - npm (v6 or higher)
 
 ## Exercise Structure
