@@ -11,6 +11,7 @@ export const ENV = {
   SALT_ROUNDS: Number(process.env.SALT_ROUNDS),
   JWT_SECRET: String(process.env.JWT_SECRET),
   REFRESH_SECRET: String(process.env.REFRESH_SECRET),
+  CORS_ORIGINS: process.env.CORS_ORIGINS?.split(',') || ['http://localhost:5173'],
 } as const;
 
 // Type for the environment variables

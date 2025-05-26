@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import authRoutes from './modules/auth/auth-routes';
 import userRoutes from './modules/user/user-routes';
+import { ENV } from './shared/constants';
 
 // Load environment variables
 dotenv.config();
@@ -16,7 +17,12 @@ const app: Application = express();
 app.use(helmet());
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: ENV.CORS_ORIGINS,
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
