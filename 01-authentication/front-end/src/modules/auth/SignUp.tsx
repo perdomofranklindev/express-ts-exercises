@@ -1,11 +1,24 @@
-import { Button, TextField, Typography, Box, Paper } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Button, TextField, Typography, Box, Paper, InputAdornment, IconButton } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 import { FormWrapper } from "../../shared/components/FormWrapper";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema, type SignUpFormData } from "./schemas/signup-schema";
+import { useMutation } from "@tanstack/react-query";
+import { apiClient } from "../../shared/services/ApiClient";
+import { useSnackbar } from "../../shared/components/Snackbar/SnackbarContext";
+import { useEffect, useState } from "react";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 export function SignUp() {
+  const navigate = useNavigate();
+  const { showSnackbar } = useSnackbar();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
+
   const {
     register,
     handleSubmit,
@@ -14,10 +27,38 @@ export function SignUp() {
     resolver: zodResolver(signUpSchema),
   });
 
+  const signUpMutation = useMutation({
+    mutationFn: (data: Omit<SignUpFormData, "confirmPassword">) =>
+      apiClient.signUp(data),
+    onSuccess: () => {
+      showSnackbar("Account created successfully!", "success");
+      navigate("/auth/sign-in");
+    },
+    onError: (error: Error) => {
+      showSnackbar(error.message, "error");
+    },
+  });
+
+  // Handle navigation confirmation
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (signUpMutation.isPending) {
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [signUpMutation.isPending]);
+
   const onSubmit = (data: SignUpFormData) => {
-    console.log(data);
-    // Handle form submission
+    const { confirmPassword, ...rest } = data;
+
+    signUpMutation.mutate(rest);
   };
+
+  const isLoading = signUpMutation.isPending;
 
   return (
     <FormWrapper maxWidth="xs">
@@ -36,6 +77,7 @@ export function SignUp() {
             helperText={errors.firstName?.message}
             autoComplete="given-name"
             autoFocus
+            disabled={isLoading}
           />
           <TextField
             margin="normal"
@@ -46,6 +88,7 @@ export function SignUp() {
             error={!!errors.lastName}
             helperText={errors.lastName?.message}
             autoComplete="family-name"
+            disabled={isLoading}
           />
           <TextField
             margin="normal"
@@ -56,39 +99,75 @@ export function SignUp() {
             error={!!errors.email}
             helperText={errors.email?.message}
             autoComplete="email"
+            disabled={isLoading}
           />
           <TextField
             margin="normal"
             fullWidth
             label="Password"
-            type="password"
+            type={showPassword ? "text" : "password"}
             id="password"
             {...register("password")}
             error={!!errors.password}
             helperText={errors.password?.message}
             autoComplete="new-password"
+            disabled={isLoading}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
           <TextField
             margin="normal"
             fullWidth
             label="Confirm Password"
-            type="password"
+            type={showConfirmPassword ? "text" : "password"}
             id="confirmPassword"
             {...register("confirmPassword")}
             error={!!errors.confirmPassword}
             helperText={errors.confirmPassword?.message}
             autoComplete="new-password"
+            disabled={isLoading}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle confirm password visibility"
+                    onClick={handleClickShowConfirmPassword}
+                    edge="end"
+                  >
+                    {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
           <Button
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            disabled={isLoading}
+            loading={isLoading}
           >
-            Sign Up
+            {"Sign Up"}
           </Button>
           <Box sx={{ textAlign: "center" }}>
-            <Link to="/auth/sign-in">{"Already have an account? Sign In"}</Link>
+            <Link
+              to="/auth/sign-in"
+              style={{ pointerEvents: isLoading ? "none" : "auto" }}
+            >
+              {"Already have an account? Sign In"}
+            </Link>
           </Box>
         </Box>
       </Paper>
