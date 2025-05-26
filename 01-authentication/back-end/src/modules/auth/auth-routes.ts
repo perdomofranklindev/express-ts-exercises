@@ -3,10 +3,10 @@ import { AuthController } from './auth-controller';
 
 const router: Router = express.Router();
 
-router.post('/sign-up', AuthController.SignUp);
-router.post('/sign-in', AuthController.SignIn);
+router.post('/sign-up', AuthController.signUp);
+router.post('/sign-in', AuthController.signIn);
 router.post('/sign-out', AuthController.SignOut);
-router.post('/refresh-token', AuthController.RefreshToken);
-router.get('/check-token', AuthController.CheckToken);
+router.post('/refresh-token', AuthController.refreshToken);
+router.get('/check-token', AuthController.checkToken);
 
 export default router;

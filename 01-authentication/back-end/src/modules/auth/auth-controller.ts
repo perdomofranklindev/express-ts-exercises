@@ -9,7 +9,7 @@ import {
 import { AuthErrorCode, AuthErrorResponse } from './auth-constants';
 
 export class AuthController {
-  public static async SignUp(request: Request, response: Response): Promise<void> {
+  public static async signUp(request: Request, response: Response): Promise<void> {
     const user = request.body as User;
 
     const validatedSchema = await AuthUtils.validateUserSignUp(user);
@@ -51,7 +51,7 @@ export class AuthController {
     });
   }
 
-  public static async SignIn(request: Request, response: Response): Promise<void> {
+  public static async signIn(request: Request, response: Response): Promise<void> {
     const user = request.body as User;
 
     const validatedSchema = await AuthUtils.validateUserSignIn(user);
@@ -125,7 +125,7 @@ export class AuthController {
     response.status(200).json({ message: 'Successfully signed out' });
   }
 
-  public static async RefreshToken(request: Request, response: Response): Promise<void> {
+  public static async refreshToken(request: Request, response: Response): Promise<void> {
     const refreshToken = request.cookies.refresh_token;
 
     if (!refreshToken) {
@@ -182,14 +182,11 @@ export class AuthController {
     }
   }
 
-  public static async CheckToken(request: Request, response: Response): Promise<void> {
+  public static async checkToken(request: Request, response: Response): Promise<void> {
     const accessToken = request.cookies.access_token;
 
     if (!accessToken) {
-      response.status(401).json({
-        isValid: false,
-        message: 'No token provided',
-      });
+      response.status(401).json(AuthErrorResponse[AuthErrorCode.ACCESS_TOKEN_MISSING]);
       return;
     }
 
@@ -199,10 +196,7 @@ export class AuthController {
       const user = await AuthUtils.findUserById(decoded.id);
 
       if (!user) {
-        response.status(401).json({
-          isValid: false,
-          message: 'Invalid token',
-        });
+        response.status(401).json(AuthErrorResponse[AuthErrorCode.INVALID_ACCESS_TOKEN]);
         return;
       }
 
@@ -216,10 +210,13 @@ export class AuthController {
         },
       });
     } catch (error) {
-      response.status(401).json({
-        isValid: false,
-        message: 'Invalid or expired token',
-      });
+      // Check if the error is due to token expiration
+      if (error instanceof Error && error.message.includes('expired')) {
+        response.status(401).json(AuthErrorResponse[AuthErrorCode.ACCESS_TOKEN_EXPIRED]);
+        return;
+      }
+
+      response.status(401).json(AuthErrorResponse[AuthErrorCode.INVALID_ACCESS_TOKEN]);
     }
   }
 }

@@ -1,13 +1,15 @@
+import ms from 'ms';
+
 const oneSecond = 1000;
 const oneMinute = oneSecond * 60;
 const oneHour = oneMinute * 60;
 const oneDay = oneHour * 24;
 
-const COOKIE_ACCESS_TOKEN_MAX_AGE = oneHour;
+const COOKIE_ACCESS_TOKEN_MAX_AGE = oneMinute;
 const COOKIE_REFRESH_TOKEN_MAX_AGE = oneDay * 7;
 
-const ACCESS_TOKEN_EXPIRES_IN = '1h';
-const REFRESH_TOKEN_EXPIRES_IN = '7d';
+const ACCESS_TOKEN_EXPIRES_IN: ms.StringValue = '1m';
+const REFRESH_TOKEN_EXPIRES_IN: ms.StringValue = '7d';
 
 // You're gonna need both, in string and number.
 
