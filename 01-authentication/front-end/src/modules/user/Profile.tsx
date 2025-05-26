@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import { FormWrapper } from "../../shared/components/FormWrapper";
 import { Edit as EditIcon, PhotoCamera } from "@mui/icons-material";
 import { Lock as LockIcon } from "@mui/icons-material";
+import dayjs from "dayjs";
 
 // Mock user data
 const mockUser = {
@@ -22,6 +23,7 @@ const mockUser = {
   bio: "Passionate about creating beautiful and functional user interfaces. Love working with React and TypeScript.",
   location: "San Francisco, CA",
   joinDate: "January 2023",
+  createdAt: "2023-01-15T10:30:00Z", // ISO date string
 };
 
 export function Profile() {
@@ -138,14 +140,26 @@ export function Profile() {
                 }}
               />
             </Box>
-            <TextField
-              fullWidth
-              label="Location"
-              defaultValue="New York, USA"
-              InputProps={{
-                readOnly: true,
-              }}
-            />
+            <Box sx={{ display: "flex", gap: 2 }}>
+              <TextField
+                fullWidth
+                label="Location"
+                defaultValue="New York, USA"
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+              <TextField
+                fullWidth
+                label="Created At"
+                defaultValue={dayjs(mockUser.createdAt).format(
+                  "MMMM D, YYYY [at] h:mm A"
+                )}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Box>
           </Box>
 
           <TextField
