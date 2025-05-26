@@ -2,6 +2,7 @@ export enum AuthErrorCode {
   ACCESS_TOKEN_MISSING = 'ACCESS_TOKEN_MISSING',
   ACCESS_TOKEN_EXPIRED = 'ACCESS_TOKEN_EXPIRED',
   INVALID_ACCESS_TOKEN = 'INVALID_ACCESS_TOKEN',
+  REFRESH_TOKEN_MISSING = 'REFRESH_TOKEN_MISSING',
   REFRESH_TOKEN_EXPIRED = 'REFRESH_TOKEN_EXPIRED',
   INVALID_REFRESH_TOKEN = 'INVALID_REFRESH_TOKEN',
   INTERNAL_SERVER_ERROR = 'INTERNAL_SERVER_ERROR',
@@ -9,7 +10,7 @@ export enum AuthErrorCode {
 
 export const AuthErrorResponse = {
   [AuthErrorCode.ACCESS_TOKEN_MISSING]: {
-    message: 'Access token not found',
+    message: 'Access token not provided',
     code: AuthErrorCode.ACCESS_TOKEN_MISSING,
   },
   [AuthErrorCode.ACCESS_TOKEN_EXPIRED]: {
@@ -19,6 +20,10 @@ export const AuthErrorResponse = {
   [AuthErrorCode.INVALID_ACCESS_TOKEN]: {
     message: 'Invalid access token',
     code: AuthErrorCode.INVALID_ACCESS_TOKEN,
+  },
+  [AuthErrorCode.REFRESH_TOKEN_MISSING]: {
+    message: 'Refresh token not provided',
+    code: AuthErrorCode.REFRESH_TOKEN_MISSING,
   },
   [AuthErrorCode.REFRESH_TOKEN_EXPIRED]: {
     message: 'Refresh token has expired. Please sign in again.',

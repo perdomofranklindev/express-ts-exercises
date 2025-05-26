@@ -129,7 +129,9 @@ export class AuthController {
     const refreshToken = request.cookies.refresh_token;
 
     if (!refreshToken) {
-      response.status(401).json(AuthErrorResponse[AuthErrorCode.INVALID_REFRESH_TOKEN]);
+      // We can't determine if the token is missing or expired, so we'll treat it as expired
+      // since that's the more common case and requires the same user action (sign in again)
+      response.status(401).json(AuthErrorResponse[AuthErrorCode.REFRESH_TOKEN_EXPIRED]);
       return;
     }
 
@@ -186,6 +188,8 @@ export class AuthController {
     const accessToken = request.cookies.access_token;
 
     if (!accessToken) {
+      // We can't determine if the token is missing or expired, so we'll treat it as expired
+      // since that's the more common case and requires the same user action (sign in again)
       response.status(401).json(AuthErrorResponse[AuthErrorCode.ACCESS_TOKEN_MISSING]);
       return;
     }
@@ -215,7 +219,6 @@ export class AuthController {
         response.status(401).json(AuthErrorResponse[AuthErrorCode.ACCESS_TOKEN_EXPIRED]);
         return;
       }
-
       response.status(401).json(AuthErrorResponse[AuthErrorCode.INVALID_ACCESS_TOKEN]);
     }
   }
