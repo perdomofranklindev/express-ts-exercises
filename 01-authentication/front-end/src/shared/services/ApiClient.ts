@@ -4,18 +4,19 @@ import type {
   UserProfile,
   ApiResponse,
   SignUpResponse,
-  AuthErrorCode,
+  AuthErrorCodeType,
   AuthErrorResponse,
 } from "./types";
 
 class ApiError extends Error {
-  constructor(
-    message: string,
-    public status: number,
-    public code?: AuthErrorCode
-  ) {
+  public status: number;
+  public code?: AuthErrorCodeType;
+
+  constructor(message: string, status: number, code?: AuthErrorCodeType) {
     super(message);
     this.name = "ApiError";
+    this.status = status;
+    this.code = code;
   }
 }
 
@@ -43,7 +44,11 @@ class ApiClient {
 
     if (!response.ok) {
       const errorData = data as AuthErrorResponse;
-      throw new ApiError(errorData.message, response.status, errorData.code);
+      throw new ApiError(
+        errorData.message,
+        response.status,
+        errorData.code
+      );
     }
 
     return data;

@@ -30,4 +30,4 @@ export function FormWrapper({ children, maxWidth = "sm" }: FormWrapperProps) {
       </Container>
     </Box>
   );
-} 
+}
