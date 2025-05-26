@@ -10,9 +10,8 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { FormWrapper } from "../../shared/components/FormWrapper";
-import EditIcon from "@mui/icons-material/Edit";
-import PhotoCamera from "@mui/icons-material/PhotoCamera";
-import LockIcon from "@mui/icons-material/Lock";
+import { Edit as EditIcon, PhotoCamera } from "@mui/icons-material";
+import { Lock as LockIcon } from "@mui/icons-material";
 
 // Mock user data
 const mockUser = {
@@ -102,48 +101,50 @@ export function Profile() {
             </IconButton>
           </Box>
 
-          <Box
-            sx={{
-              display: "grid",
-              gap: 2,
-              gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
-            }}
-          >
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            <Box sx={{ display: "flex", gap: 2 }}>
+              <TextField
+                fullWidth
+                label="First Name"
+                defaultValue="John"
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+              <TextField
+                fullWidth
+                label="Last Name"
+                defaultValue="Doe"
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Box>
+            <Box sx={{ display: "flex", gap: 2 }}>
+              <TextField
+                fullWidth
+                label="Email"
+                defaultValue="john.doe@example.com"
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+              <TextField
+                fullWidth
+                label="Role"
+                defaultValue="Software Engineer"
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Box>
             <TextField
-              margin="normal"
-              required
               fullWidth
-              id="name"
-              label="Full Name"
-              name="name"
-              autoComplete="name"
-              defaultValue={mockUser.name}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              defaultValue={mockUser.email}
-            />
-            <TextField
-              margin="normal"
-              fullWidth
-              id="role"
-              label="Role"
-              name="role"
-              defaultValue={mockUser.role}
-            />
-            <TextField
-              margin="normal"
-              fullWidth
-              id="location"
               label="Location"
-              name="location"
-              defaultValue={mockUser.location}
+              defaultValue="New York, USA"
+              InputProps={{
+                readOnly: true,
+              }}
             />
           </Box>
 
