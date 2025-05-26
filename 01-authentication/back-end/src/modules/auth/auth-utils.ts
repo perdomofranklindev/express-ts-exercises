@@ -31,7 +31,7 @@ export class AuthUtils {
   }
 
   static async checkUserExists({ email }: CheckUserExistsParams): Promise<boolean> {
-    if (email) {
+    if (!email) {
       throw new Error('Email must be provided.');
     }
 
@@ -45,7 +45,7 @@ export class AuthUtils {
   }
 
   static async createUser({
-    fistName,
+    firstName,
     lastName,
     email,
     password,
@@ -55,7 +55,7 @@ export class AuthUtils {
     const response = await handleTryCatch(
       prisma.user.create({
         data: {
-          fistName,
+          firstName,
           lastName,
           email,
           password: hashedPassword,

@@ -10,7 +10,7 @@ export interface CheckUserExistsParams {
 }
 
 export interface CreateUserParams {
-  fistName: string;
+  firstName: string;
   lastName: string;
   email: string;
   password: string;

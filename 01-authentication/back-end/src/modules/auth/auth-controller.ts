@@ -20,7 +20,7 @@ export class AuthController {
       });
     }
 
-    const { fistName, lastName, email, password } = user;
+    const { firstName, lastName, email, password } = user;
 
     const doesItExist = await AuthUtils.checkUserExists({
       email,
@@ -33,11 +33,13 @@ export class AuthController {
     }
 
     const [newUser, createUserError] = await AuthUtils.createUser({
-      fistName,
+      firstName,
       lastName,
       email,
       password,
     });
+
+    console.log(createUserError);
 
     if (createUserError) {
       response.status(400).json({ message: 'Unexpected error' });
@@ -45,7 +47,7 @@ export class AuthController {
 
     response.status(201).json({
       id: newUser?.id,
-      fistName: newUser?.fistName,
+      firstName: newUser?.firstName,
       lastName: newUser?.lastName,
       email: newUser?.email,
     });
@@ -210,7 +212,7 @@ export class AuthController {
         user: {
           id: user.id,
           email: user.email,
-          fistName: user.fistName,
+          firstName: user.firstName,
           lastName: user.lastName,
         },
       });
