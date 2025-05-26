@@ -39,8 +39,6 @@ export class AuthController {
       password,
     });
 
-    console.log(createUserError);
-
     if (createUserError) {
       response.status(400).json({ message: 'Unexpected error' });
     }
@@ -77,9 +75,10 @@ export class AuthController {
     // Password validation.
 
     const isValidPassword = AuthUtils.isValidPassword({
-      currentPassword: user.password,
+      currentPassword: String(foundUser?.password),
       incomingPassword: password,
     });
+
     const notValidPassword = !isValidPassword;
 
     if (notValidPassword) {
