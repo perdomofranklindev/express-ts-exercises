@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { FormWrapper } from "../../shared/components/FormWrapper";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signInSchema, type SignInFormData } from "./schemas/auth.schema";
+import { signInSchema, type SignInFormData } from "./schemas/auth-schema";
 
 export function SignIn() {
   const {

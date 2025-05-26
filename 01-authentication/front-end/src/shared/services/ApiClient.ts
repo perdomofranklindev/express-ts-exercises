@@ -6,6 +6,8 @@ import type {
   SignUpResponse,
   AuthErrorCodeType,
   AuthErrorResponse,
+  CheckTokenResponse,
+  ChangePasswordData,
 } from "./types";
 
 class ApiError extends Error {
@@ -83,6 +85,19 @@ class ApiClient {
   async getUserProfile(): Promise<UserProfile> {
     return this.request("/api/user/profile", {
       method: "GET",
+    });
+  }
+
+  async checkToken(): Promise<CheckTokenResponse> {
+    return this.request("/api/check-token", {
+      method: "GET",
+    });
+  }
+
+  async changePassword(data: ChangePasswordData): Promise<ApiResponse> {
+    return this.request("/api/user/change-password", {
+      method: "POST",
+      body: JSON.stringify(data),
     });
   }
 }

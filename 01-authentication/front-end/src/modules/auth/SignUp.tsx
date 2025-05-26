@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { FormWrapper } from "../../shared/components/FormWrapper";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signUpSchema, type SignUpFormData } from "./schemas/signup.schema";
+import { signUpSchema, type SignUpFormData } from "./schemas/signup-schema";
 
 export function SignUp() {
   const {

@@ -31,6 +31,24 @@ export interface SignUpResponse {
   email: string;
 }
 
+export interface ChangePasswordData {
+  currentPassword: string;
+  newPassword: string;
+}
+
+export interface CheckTokenUser {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface CheckTokenResponse {
+  isValid: boolean;
+  message?: string;
+  user?: CheckTokenUser;
+}
+
 export const AuthErrorCode = {
   ACCESS_TOKEN_MISSING: "ACCESS_TOKEN_MISSING",
   ACCESS_TOKEN_EXPIRED: "ACCESS_TOKEN_EXPIRED",

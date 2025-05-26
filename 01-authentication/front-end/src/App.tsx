@@ -1,6 +1,7 @@
 import { RouterProvider } from "react-router-dom";
+import { AuthProvider } from "./modules/auth/AuthContext";
+import { router } from "./shared/routes/router";
 import { Box, CssBaseline, ThemeProvider } from "@mui/material";
-import { router } from "./router";
 import { theme } from "./shared/theme";
 
 function App() {
@@ -15,7 +16,9 @@ function App() {
         }}
       >
         <CssBaseline />
-        <RouterProvider router={router} />
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
       </Box>
     </ThemeProvider>
   );
