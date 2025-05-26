@@ -1,11 +1,18 @@
 import { Button, TextField, Typography, Box, Paper } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FormWrapper } from "../../shared/components/FormWrapper";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signInSchema, type SignInFormData } from "./schemas/auth-schema";
+import { useMutation } from "@tanstack/react-query";
+import { apiClient } from "../../shared/services/ApiClient";
+import { useSnackbar } from "../../shared/components/Snackbar/SnackbarContext";
+import { useEffect } from "react";
 
 export function SignIn() {
+  const navigate = useNavigate();
+  const { showSnackbar } = useSnackbar();
+
   const {
     register,
     handleSubmit,
@@ -14,10 +21,36 @@ export function SignIn() {
     resolver: zodResolver(signInSchema),
   });
 
+  const signInMutation = useMutation({
+    mutationFn: (data: SignInFormData) => apiClient.signIn(data),
+    onSuccess: () => {
+      showSnackbar("Signed in successfully!", "success");
+      navigate("/user/profile");
+    },
+    onError: (error: Error) => {
+      console.log(error);
+      showSnackbar(error.message, "error");
+    },
+  });
+
+  // Handle navigation confirmation
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (signInMutation.isPending) {
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [signInMutation.isPending]);
+
   const onSubmit = (data: SignInFormData) => {
-    console.log(data);
-    // TODO: Implement sign in logic
+    signInMutation.mutate(data);
   };
+
+  const isLoading = signInMutation.isPending;
 
   return (
     <FormWrapper maxWidth="xs">
@@ -36,6 +69,7 @@ export function SignIn() {
             error={!!errors.email}
             helperText={errors.email?.message}
             {...register("email")}
+            disabled={isLoading}
           />
           <TextField
             margin="normal"
@@ -47,17 +81,24 @@ export function SignIn() {
             error={!!errors.password}
             helperText={errors.password?.message}
             {...register("password")}
+            disabled={isLoading}
           />
           <Button
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            disabled={isLoading}
           >
             Sign In
           </Button>
           <Box sx={{ textAlign: "center" }}>
-            <Link to="/auth/sign-up">{"Don't have an account? Sign Up"}</Link>
+            <Link
+              to="/auth/sign-up"
+              style={{ pointerEvents: isLoading ? "none" : "auto" }}
+            >
+              {"Don't have an account? Sign Up"}
+            </Link>
           </Box>
         </Box>
       </Paper>
