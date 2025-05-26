@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { apiClient } from "../../shared/services/ApiClient";
-import type { CheckTokenUser } from "../../shared/services/types";
+import type { CheckTokenUser, AuthErrorCodeType } from "../../shared/services/types";
+import { AuthErrorCode } from "../../shared/services/types";
 
 interface AuthContextType {
   user: CheckTokenUser | null;
@@ -14,6 +15,7 @@ interface AuthContextType {
     lastName: string
   ) => Promise<void>;
   signOut: () => Promise<void>;
+  refreshToken: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -21,6 +23,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<CheckTokenUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   useEffect(() => {
     checkAuth();
@@ -35,9 +38,38 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
       setUser(null);
     } catch (error) {
+      if (error instanceof Error && 'code' in error) {
+        const apiError = error as { code: AuthErrorCodeType };
+        if (
+          apiError.code === AuthErrorCode.ACCESS_TOKEN_EXPIRED ||
+          apiError.code === AuthErrorCode.ACCESS_TOKEN_MISSING
+        ) {
+          try {
+            await refreshToken();
+            return;
+          } catch (refreshError) {
+            setUser(null);
+          }
+        }
+      }
       setUser(null);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const refreshToken = async () => {
+    if (isRefreshing) return;
+    
+    try {
+      setIsRefreshing(true);
+      await apiClient.refreshToken();
+      await checkAuth();
+    } catch (error) {
+      setUser(null);
+      throw error;
+    } finally {
+      setIsRefreshing(false);
     }
   };
 
@@ -68,6 +100,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     signIn,
     signUp,
     signOut,
+    refreshToken,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
