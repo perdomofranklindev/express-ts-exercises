@@ -1,4 +1,12 @@
-import { Button, TextField, Typography, Box, Paper, InputAdornment, IconButton } from "@mui/material";
+import {
+  Button,
+  TextField,
+  Typography,
+  Box,
+  Paper,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { FormWrapper } from "../../shared/components/FormWrapper";
 import { useForm } from "react-hook-form";
@@ -17,7 +25,8 @@ export function SignUp() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
+  const handleClickShowConfirmPassword = () =>
+    setShowConfirmPassword((show) => !show);
 
   const {
     register,
