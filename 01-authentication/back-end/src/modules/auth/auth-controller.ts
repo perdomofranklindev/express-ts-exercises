@@ -180,4 +180,45 @@ export class AuthController {
       response.status(401).json(AuthErrorResponse[AuthErrorCode.INVALID_REFRESH_TOKEN]);
     }
   }
+
+  public static async CheckToken(request: Request, response: Response): Promise<void> {
+    const accessToken = request.cookies.access_token;
+
+    if (!accessToken) {
+      response.status(401).json({
+        isValid: false,
+        message: 'No token provided',
+      });
+      return;
+    }
+
+    try {
+      // Verify the access token
+      const decoded = AuthUtils.verifyAccessToken(accessToken);
+      const user = await AuthUtils.findUserById(decoded.id);
+
+      if (!user) {
+        response.status(401).json({
+          isValid: false,
+          message: 'Invalid token',
+        });
+        return;
+      }
+
+      response.status(200).json({
+        isValid: true,
+        user: {
+          id: user.id,
+          email: user.email,
+          fistName: user.fistName,
+          lastName: user.lastName,
+        },
+      });
+    } catch (error) {
+      response.status(401).json({
+        isValid: false,
+        message: 'Invalid or expired token',
+      });
+    }
+  }
 }

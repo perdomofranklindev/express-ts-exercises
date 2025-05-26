@@ -122,4 +122,16 @@ export class AuthUtils {
 
     return user;
   }
+
+  static verifyAccessToken(token: string): { id: string } {
+    try {
+      const decoded = jwt.verify(token, ENV.JWT_SECRET) as { id: string };
+      return decoded;
+    } catch (error) {
+      if (error instanceof jwt.TokenExpiredError) {
+        throw new Error('Access token has expired');
+      }
+      throw new Error('Invalid access token');
+    }
+  }
 }
