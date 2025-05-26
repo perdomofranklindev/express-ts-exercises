@@ -5,13 +5,14 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signInSchema, type SignInFormData } from "./schemas/auth-schema";
 import { useMutation } from "@tanstack/react-query";
-import { apiClient } from "../../shared/services/ApiClient";
 import { useSnackbar } from "../../shared/components/Snackbar/SnackbarContext";
 import { useEffect } from "react";
+import { useAuth } from "./AuthContext";
 
 export function SignIn() {
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbar();
+  const { signIn } = useAuth();
 
   const {
     register,
@@ -22,7 +23,7 @@ export function SignIn() {
   });
 
   const signInMutation = useMutation({
-    mutationFn: (data: SignInFormData) => apiClient.signIn(data),
+    mutationFn: (data: SignInFormData) => signIn(data.email, data.password),
     onSuccess: () => {
       showSnackbar("Signed in successfully!", "success");
       navigate("/user/profile");

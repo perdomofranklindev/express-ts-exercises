@@ -13,14 +13,15 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema, type SignUpFormData } from "./schemas/signup-schema";
 import { useMutation } from "@tanstack/react-query";
-import { apiClient } from "../../shared/services/ApiClient";
 import { useSnackbar } from "../../shared/components/Snackbar/SnackbarContext";
 import { useEffect, useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useAuth } from "./AuthContext";
 
 export function SignUp() {
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbar();
+  const { signUp } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -38,7 +39,7 @@ export function SignUp() {
 
   const signUpMutation = useMutation({
     mutationFn: (data: Omit<SignUpFormData, "confirmPassword">) =>
-      apiClient.signUp(data),
+      signUp(data.email, data.password, data.firstName, data.lastName),
     onSuccess: () => {
       showSnackbar("Account created successfully!", "success");
       navigate("/auth/sign-in");
@@ -63,7 +64,6 @@ export function SignUp() {
 
   const onSubmit = (data: SignUpFormData) => {
     const { confirmPassword, ...rest } = data;
-
     signUpMutation.mutate(rest);
   };
 
