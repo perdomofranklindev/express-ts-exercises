@@ -1,9 +1,9 @@
 import React from "react";
-import { Box, Container } from "@mui/material";
+import { Box, Container, type Breakpoint } from "@mui/material";
 
 interface CenteredFormProps {
   children: React.ReactNode;
-  maxWidth?: "xs" | "sm" | "md" | "lg" | "xl";
+  maxWidth?: Breakpoint;
 }
 
 export function CenteredForm({ children, maxWidth = "sm" }: CenteredFormProps) {
