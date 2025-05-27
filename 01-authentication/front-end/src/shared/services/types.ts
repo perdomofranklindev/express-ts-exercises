@@ -49,17 +49,16 @@ export interface CheckTokenResponse {
   user?: CheckTokenUser;
 }
 
-export const AuthErrorCode = {
-  ACCESS_TOKEN_MISSING: "ACCESS_TOKEN_MISSING",
-  ACCESS_TOKEN_EXPIRED: "ACCESS_TOKEN_EXPIRED",
-  INVALID_ACCESS_TOKEN: "INVALID_ACCESS_TOKEN",
-  REFRESH_TOKEN_EXPIRED: "REFRESH_TOKEN_EXPIRED",
-  INVALID_REFRESH_TOKEN: "INVALID_REFRESH_TOKEN",
-  INTERNAL_SERVER_ERROR: "INTERNAL_SERVER_ERROR",
-} as const;
+export enum AuthErrorCode {
+  ACCESS_TOKEN_MISSING = "ACCESS_TOKEN_MISSING",
+  ACCESS_TOKEN_EXPIRED = "ACCESS_TOKEN_EXPIRED",
+  INVALID_ACCESS_TOKEN = "INVALID_ACCESS_TOKEN",
+  REFRESH_TOKEN_EXPIRED = "REFRESH_TOKEN_EXPIRED",
+  INVALID_REFRESH_TOKEN = "INVALID_REFRESH_TOKEN",
+  INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR",
+}
 
-export type AuthErrorCodeType =
-  (typeof AuthErrorCode)[keyof typeof AuthErrorCode];
+export type AuthErrorCodeType = `${AuthErrorCode}`;
 
 export interface AuthErrorResponse {
   message: string;
