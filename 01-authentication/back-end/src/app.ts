@@ -36,7 +36,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 // Routes
-app.use('/api', authRoutes);
+app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 
 // Error handler
