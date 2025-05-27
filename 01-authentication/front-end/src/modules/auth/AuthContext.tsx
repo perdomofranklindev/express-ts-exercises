@@ -16,6 +16,7 @@ interface AuthContextType {
   ) => Promise<void>;
   signOut: () => Promise<void>;
   refreshToken: () => Promise<void>;
+  changePassword: (currentPassword: string, newPassword: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -93,6 +94,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(null);
   };
 
+  const changePassword = async (currentPassword: string, newPassword: string) => {
+    await apiClient.changePassword({ currentPassword, newPassword });
+  };
+
   const value = {
     user,
     isLoading,
@@ -101,6 +106,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     signUp,
     signOut,
     refreshToken,
+    changePassword,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
