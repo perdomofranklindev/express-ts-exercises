@@ -1,13 +1,14 @@
-import type {
-  SignUpData,
-  SignInData,
-  UserProfile,
-  ApiResponse,
-  SignUpResponse,
-  AuthErrorCodeType,
-  AuthErrorResponse,
-  CheckTokenResponse,
-  ChangePasswordData,
+import {
+  type SignUpData,
+  type SignInData,
+  type UserProfile,
+  type ApiResponse,
+  type SignUpResponse,
+  type AuthErrorCodeType,
+  type AuthErrorResponse,
+  type CheckTokenResponse,
+  type ChangePasswordData,
+  AuthErrorCode,
 } from "./types";
 
 class ApiError extends Error {
@@ -24,6 +25,8 @@ class ApiError extends Error {
 
 class ApiClient {
   private baseUrl: string;
+  private isRefreshing: boolean = false;
+  private pendingRequests: Array<() => Promise<any>> = [];
 
   constructor() {
     this.baseUrl = import.meta.env.VITE_API_URL;
@@ -52,46 +55,105 @@ class ApiClient {
     return data;
   }
 
+  private async protectedRequest<T>(
+    endpoint: string,
+    options: RequestInit = {}
+  ): Promise<T> {
+    try {
+      return await this.request<T>(endpoint, options);
+    } catch (error) {
+      if (
+        error instanceof ApiError &&
+        (error.code === AuthErrorCode.ACCESS_TOKEN_EXPIRED ||
+          error.code === AuthErrorCode.INVALID_ACCESS_TOKEN ||
+          error.code === AuthErrorCode.ACCESS_TOKEN_MISSING)
+      ) {
+        if (!this.isRefreshing) {
+          this.isRefreshing = true;
+          try {
+            await this.refreshToken();
+            const retryResponse = await this.request<T>(endpoint, options);
+            this.pendingRequests.forEach((cb) => cb());
+            this.pendingRequests = [];
+            return retryResponse;
+          } catch (refreshError) {
+            if (
+              refreshError instanceof ApiError &&
+              (refreshError.code === AuthErrorCode.REFRESH_TOKEN_EXPIRED ||
+                refreshError.code === AuthErrorCode.REFRESH_TOKEN_MISSING ||
+                refreshError.code === AuthErrorCode.INVALID_REFRESH_TOKEN)
+            ) {
+              window.location.href = "/auth/sign-in";
+            }
+            throw refreshError;
+          } finally {
+            this.isRefreshing = false;
+          }
+        } else {
+          return new Promise((resolve, reject) => {
+            this.pendingRequests.push(() =>
+              this.request<T>(endpoint, options).then(resolve).catch(reject)
+            );
+          });
+        }
+      }
+      throw error;
+    }
+  }
+
+  // Auth.
+
   async signUp(data: SignUpData): Promise<SignUpResponse> {
-    return this.request("/api/sign-up", {
+    return this.request("/api/auth/sign-up", {
       method: "POST",
       body: JSON.stringify(data),
     });
   }
 
   async signIn(data: SignInData): Promise<ApiResponse> {
-    return this.request("/api/sign-in", {
+    return this.request("/api/auth/sign-in", {
       method: "POST",
       body: JSON.stringify(data),
     });
   }
 
   async signOut(): Promise<ApiResponse> {
-    return this.request("/api/sign-out", {
+    return this.request("/api/auth/sign-out", {
       method: "POST",
     });
   }
 
   async refreshToken(): Promise<ApiResponse> {
-    return this.request("/api/refresh-token", {
-      method: "POST",
-    });
+    try {
+      const response = await this.request<ApiResponse>(
+        "/api/auth/refresh-token",
+        {
+          method: "POST",
+        }
+      );
+      return response;
+    } finally {
+      this.isRefreshing = false;
+      this.pendingRequests = [];
+    }
   }
 
-  async getUserProfile(): Promise<UserProfile> {
-    return this.request("/api/user/profile", {
+  async checkToken(): Promise<CheckTokenResponse> {
+    return this.protectedRequest("/api/auth/check-token", {
       method: "GET",
     });
   }
 
-  async checkToken(): Promise<CheckTokenResponse> {
-    return this.request("/api/check-token", {
+  // User.
+
+  async getUserProfile(): Promise<UserProfile> {
+    return this.protectedRequest("/api/user/profile", {
       method: "GET",
     });
   }
 
   async changePassword(data: ChangePasswordData): Promise<ApiResponse> {
-    return this.request("/api/user/change-password", {
+    return this.protectedRequest("/api/user/change-password", {
       method: "POST",
       body: JSON.stringify(data),
     });
