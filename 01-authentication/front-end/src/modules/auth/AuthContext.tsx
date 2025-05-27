@@ -27,8 +27,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    if (window.location.pathname === "/auth/sign-in") {
+      setIsLoading(false);
+      return;
+    }
+
     checkAuth();
-  }, []);
+  }, [window.location.pathname]);
 
   const checkAuth = async () => {
     try {
