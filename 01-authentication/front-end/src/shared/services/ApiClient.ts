@@ -46,11 +46,7 @@ class ApiClient {
 
     if (!response.ok) {
       const errorData = data as AuthErrorResponse;
-      throw new ApiError(
-        errorData.message,
-        response.status,
-        errorData.code
-      );
+      throw new ApiError(errorData.message, response.status, errorData.code);
     }
 
     return data;
