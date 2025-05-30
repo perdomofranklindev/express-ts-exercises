@@ -18,7 +18,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useSnackbar } from "../../shared/components/Snackbar/SnackbarContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 
 export function ChangePassword() {
@@ -187,7 +187,8 @@ export function ChangePassword() {
             <Button
               fullWidth
               variant="outlined"
-              href="/user/profile"
+              component={Link}
+              to="/user/profile"
               disabled={isLoading}
             >
               Cancel
