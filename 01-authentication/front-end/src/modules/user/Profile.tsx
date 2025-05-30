@@ -8,10 +8,14 @@ import {
   Divider,
   IconButton,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FormWrapper } from "../../shared/components/FormWrapper";
 import { Edit as EditIcon, PhotoCamera } from "@mui/icons-material";
 import { Lock as LockIcon } from "@mui/icons-material";
+import { useMutation } from "@tanstack/react-query";
+import { useSnackbar } from "../../shared/components/Snackbar/SnackbarContext";
+import { useEffect } from "react";
+import { useAuth } from "../auth/AuthContext";
 import dayjs from "dayjs";
 
 // Mock user data
@@ -27,6 +31,39 @@ const mockUser = {
 };
 
 export function Profile() {
+  const navigate = useNavigate();
+
+  const { showSnackbar } = useSnackbar();
+  const { signOut } = useAuth();
+
+  const signOutMutation = useMutation({
+    mutationFn: () => signOut(),
+    onSuccess: () => {
+      showSnackbar("Signed out successfully!", "success");
+      navigate("/auth/sign-in");
+    },
+    onError: (error: Error) => {
+      showSnackbar(error.message, "error");
+    },
+  });
+
+  // Handle navigation confirmation
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (signOutMutation.isPending) {
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [signOutMutation.isPending]);
+
+  const handleSignOut = () => {
+    signOutMutation.mutate();
+  };
+
   return (
     <FormWrapper maxWidth="md">
       <Paper elevation={3} sx={{ p: 4, width: "100%" }}>
@@ -109,16 +146,20 @@ export function Profile() {
                 fullWidth
                 label="First Name"
                 defaultValue="John"
-                InputProps={{
-                  readOnly: true,
+                slotProps={{
+                  input: {
+                    readOnly: true,
+                  },
                 }}
               />
               <TextField
                 fullWidth
                 label="Last Name"
                 defaultValue="Doe"
-                InputProps={{
-                  readOnly: true,
+                slotProps={{
+                  input: {
+                    readOnly: true,
+                  },
                 }}
               />
             </Box>
@@ -127,16 +168,20 @@ export function Profile() {
                 fullWidth
                 label="Email"
                 defaultValue="john.doe@example.com"
-                InputProps={{
-                  readOnly: true,
+                slotProps={{
+                  input: {
+                    readOnly: true,
+                  },
                 }}
               />
               <TextField
                 fullWidth
                 label="Role"
                 defaultValue="Software Engineer"
-                InputProps={{
-                  readOnly: true,
+                slotProps={{
+                  input: {
+                    readOnly: true,
+                  },
                 }}
               />
             </Box>
@@ -145,8 +190,10 @@ export function Profile() {
                 fullWidth
                 label="Location"
                 defaultValue="New York, USA"
-                InputProps={{
-                  readOnly: true,
+                slotProps={{
+                  input: {
+                    readOnly: true,
+                  },
                 }}
               />
               <TextField
@@ -155,8 +202,10 @@ export function Profile() {
                 defaultValue={dayjs(mockUser.createdAt).format(
                   "MMMM D, YYYY [at] h:mm A"
                 )}
-                InputProps={{
-                  readOnly: true,
+                slotProps={{
+                  input: {
+                    readOnly: true,
+                  },
                 }}
               />
             </Box>
@@ -179,8 +228,9 @@ export function Profile() {
             <Button
               variant="outlined"
               color="error"
-              component={Link}
-              to="/auth/sign-in"
+              onClick={handleSignOut}
+              loading={signOutMutation.isPending}
+              disabled={signOutMutation.isPending}
             >
               Sign Out
             </Button>
@@ -189,10 +239,11 @@ export function Profile() {
               component={Link}
               to="/user/change-password"
               startIcon={<LockIcon />}
+              disabled={signOutMutation.isPending}
             >
               Change Password
             </Button>
-            <Button type="submit" variant="contained">
+            <Button type="button" variant="contained">
               Save Changes
             </Button>
           </Box>
