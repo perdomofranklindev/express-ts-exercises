@@ -60,36 +60,48 @@ class ApiClient {
     options: RequestInit = {}
   ): Promise<T> {
     try {
+      // First attempt: Try the request with current credentials
       return await this.request<T>(endpoint, options);
     } catch (error) {
+      // Check if the error is related to token issues
       if (
         error instanceof ApiError &&
         (error.code === AuthErrorCode.ACCESS_TOKEN_EXPIRED ||
           error.code === AuthErrorCode.INVALID_ACCESS_TOKEN ||
           error.code === AuthErrorCode.ACCESS_TOKEN_MISSING)
       ) {
+        // If no refresh is in progress, start the refresh process
         if (!this.isRefreshing) {
           this.isRefreshing = true;
           try {
+            // Attempt to refresh the token
             await this.refreshToken();
+            // Retry the original request with the new token
             const retryResponse = await this.request<T>(endpoint, options);
+            // Process all queued requests that were waiting for the refresh
             this.pendingRequests.forEach((cb) => cb());
+            // Clear the queue after processing
             this.pendingRequests = [];
             return retryResponse;
           } catch (refreshError) {
+            // Handle refresh token errors
             if (
               refreshError instanceof ApiError &&
               (refreshError.code === AuthErrorCode.REFRESH_TOKEN_EXPIRED ||
                 refreshError.code === AuthErrorCode.REFRESH_TOKEN_MISSING ||
                 refreshError.code === AuthErrorCode.INVALID_REFRESH_TOKEN)
             ) {
+              // Redirect to login if refresh token is invalid
               window.location.href = "/auth/sign-in";
             }
             throw refreshError;
           } finally {
+            // Always reset the refreshing flag, even if refresh fails
             this.isRefreshing = false;
           }
         } else {
+          // If a refresh is already in progress, queue this request
+          // The request will be executed after the refresh completes
           return new Promise((resolve, reject) => {
             this.pendingRequests.push(() =>
               this.request<T>(endpoint, options).then(resolve).catch(reject)
@@ -97,6 +109,7 @@ class ApiClient {
           });
         }
       }
+      // If the error is not token-related, throw it as is
       throw error;
     }
   }
@@ -139,7 +152,7 @@ class ApiClient {
   }
 
   async checkToken(): Promise<CheckTokenResponse> {
-    return this.protectedRequest("/api/auth/check-token", {
+    return this.request("/api/auth/check-token", {
       method: "GET",
     });
   }
