@@ -5,6 +5,7 @@ import { Box, CssBaseline, ThemeProvider } from "@mui/material";
 import { theme } from "./shared/theme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { SnackbarProvider } from "./shared/components/Snackbar/SnackbarContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,19 +20,21 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
-        <Box
-          sx={{
-            minHeight: "100vh",
-            display: "flex",
-            flexDirection: "column",
-            bgcolor: "background.default",
-          }}
-        >
-          <CssBaseline />
-          <AuthProvider>
-            <RouterProvider router={router} />
-          </AuthProvider>
-        </Box>
+        <SnackbarProvider>
+          <Box
+            sx={{
+              minHeight: "100vh",
+              display: "flex",
+              flexDirection: "column",
+              bgcolor: "background.default",
+            }}
+          >
+            <CssBaseline />
+            <AuthProvider>
+              <RouterProvider router={router} />
+            </AuthProvider>
+          </Box>
+        </SnackbarProvider>
       </ThemeProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
