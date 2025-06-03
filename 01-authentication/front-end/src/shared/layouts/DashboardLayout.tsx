@@ -19,7 +19,6 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           display: "grid",
           gridTemplateColumns: "auto 2fr",
           gridTemplateRows: "auto 1fr",
-          // gap: "0px 0px",
           gap: `${theme.spacing(5)} ${theme.spacing(5)}`,
 
           gridTemplateAreas: `
