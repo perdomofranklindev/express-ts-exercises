@@ -29,7 +29,7 @@ function App() {
               bgcolor: "background.default",
             }}
           >
-            <CssBaseline />
+            <CssBaseline enableColorScheme />
             <AuthProvider>
               <RouterProvider router={router} />
             </AuthProvider>

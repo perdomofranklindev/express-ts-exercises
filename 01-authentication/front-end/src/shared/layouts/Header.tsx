@@ -21,6 +21,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import PersonIcon from "@mui/icons-material/Person";
 import { useState } from "react";
+import { ThemeToggle } from "../components/ThemeToggle/ThemeToggle";
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -65,6 +66,9 @@ export const Header = () => {
           Dashboard
         </Typography>
         
+        {/* Theme Toggle */}
+        <ThemeToggle />
+
         {/* Notifications Icon */}
         <IconButton color="inherit" sx={{ mr: 2 }}>
           <NotificationsIcon />

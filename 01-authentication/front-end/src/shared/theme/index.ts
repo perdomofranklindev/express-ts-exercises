@@ -10,28 +10,66 @@ declare module "@mui/material/styles" {
 }
 
 export const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#1976d2",
-      light: "#42a5f5",
-      dark: "#1565c0",
-      contrastText: "#fff",
+  colorSchemes: {
+    light: {
+      palette: {
+        primary: {
+          main: "#2563eb",
+          light: "#60a5fa",
+          dark: "#1d4ed8",
+          contrastText: "#fff",
+        },
+        secondary: {
+          main: "#7c3aed",
+          light: "#a78bfa",
+          dark: "#5b21b6",
+          contrastText: "#fff",
+        },
+        neutral: {
+          main: "#6b7280",
+          light: "#9ca3af",
+          dark: "#4b5563",
+          contrastText: "#fff",
+        },
+        background: {
+          default: "#f9fafb",
+          paper: "#ffffff",
+        },
+        text: {
+          primary: "#111827",
+          secondary: "#4b5563",
+        },
+      },
     },
-    secondary: {
-      main: "#9c27b0",
-      light: "#ba68c8",
-      dark: "#7b1fa2",
-      contrastText: "#fff",
-    },
-    neutral: {
-      main: "#64748B",
-      light: "#94A3B8",
-      dark: "#475569",
-      contrastText: "#fff",
-    },
-    background: {
-      default: "#f8fafc",
-      paper: "#ffffff",
+    dark: {
+      palette: {
+        primary: {
+          main: "#60a5fa",
+          light: "#93c5fd",
+          dark: "#3b82f6",
+          contrastText: "#030712",
+        },
+        secondary: {
+          main: "#a78bfa",
+          light: "#c4b5fd",
+          dark: "#7c3aed",
+          contrastText: "#030712",
+        },
+        neutral: {
+          main: "#9ca3af",
+          light: "#d1d5db",
+          dark: "#6b7280",
+          contrastText: "#030712",
+        },
+        background: {
+          default: "#030712",
+          paper: "#111827",
+        },
+        text: {
+          primary: "#f9fafb",
+          secondary: "#d1d5db",
+        },
+      },
     },
   },
   typography: {
