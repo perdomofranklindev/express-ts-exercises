@@ -6,8 +6,8 @@ import {
   Paper,
   InputAdornment,
   IconButton,
+  Container,
 } from "@mui/material";
-import { FormWrapper } from "../../shared/components/FormWrapper";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -76,7 +76,7 @@ export function ChangePassword() {
   const isLoading = changePasswordMutation.isPending;
 
   return (
-    <FormWrapper maxWidth="xs">
+    <Container maxWidth="xs">
       <Paper elevation={3} sx={{ p: 4, width: "100%" }}>
         <Typography component="h1" variant="h5" align="center" gutterBottom>
           Change Password
@@ -196,6 +196,6 @@ export function ChangePassword() {
           </Box>
         </Box>
       </Paper>
-    </FormWrapper>
+    </Container>
   );
 }
