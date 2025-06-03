@@ -1,16 +1,15 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import { SignIn } from "../../modules/auth/SignIn";
 import { SignUp } from "../../modules/auth/SignUp";
 import { Profile } from "../../modules/user/Profile";
 import { ChangePassword } from "../../modules/user/ChangePassword";
 import { PublicRoute } from "./PublicRoute";
 import { ProtectedRoute } from "./ProtectedRoute";
+import { DashboardLayout } from "../layouts/DashboardLayout";
+import { Outlet } from "react-router-dom";
+import { Home } from "../../modules/home/Home";
 
 export const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Navigate to="/auth/sign-in" replace />,
-  },
   {
     path: "/auth/sign-in",
     element: (
@@ -28,19 +27,32 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: "/user/profile",
+    path: "/",
     element: (
       <ProtectedRoute>
-        <Profile />
+        <DashboardLayout>
+          <Outlet />
+        </DashboardLayout>
       </ProtectedRoute>
     ),
-  },
-  {
-    path: "/user/change-password",
-    element: (
-      <ProtectedRoute>
-        <ChangePassword />
-      </ProtectedRoute>
-    ),
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: "user",
+        children: [
+          {
+            path: "profile",
+            element: <Profile />,
+          },
+          {
+            path: "change-password",
+            element: <ChangePassword />,
+          },
+        ],
+      },
+    ],
   },
 ]);
