@@ -15,7 +15,7 @@ export function PublicRoute({ children }: PublicRouteProps) {
 
   if (isAuthenticated) {
     // Redirect to home page if user is already authenticated
-    return <Navigate to="/user/profile" state={{ from: location }} replace />;
+    return <Navigate to="/" state={{ from: location }} replace />;
   }
 
   return <>{children}</>;
