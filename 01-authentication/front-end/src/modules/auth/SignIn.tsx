@@ -26,7 +26,7 @@ export function SignIn() {
     mutationFn: (data: SignInFormData) => signIn(data.email, data.password),
     onSuccess: () => {
       showSnackbar("Signed in successfully!", "success");
-      navigate("/user/profile");
+      navigate("/");
     },
     onError: (error: Error) => {
       console.log(error);
@@ -59,7 +59,12 @@ export function SignIn() {
         <Typography component="h1" variant="h5" align="center" gutterBottom>
           Sign In
         </Typography>
-        <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1 }}>
+        <Box
+          component="form"
+          onSubmit={handleSubmit(onSubmit)}
+          sx={{ mt: 1 }}
+          autoComplete="on"
+        >
           <TextField
             margin="normal"
             fullWidth
