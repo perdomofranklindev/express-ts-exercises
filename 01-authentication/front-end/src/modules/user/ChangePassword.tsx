@@ -21,7 +21,7 @@ import { useSnackbar } from "../../shared/components/Snackbar/SnackbarContext";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 
-export function ChangePassword() {
+export default function ChangePassword() {
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbar();
   const { changePassword } = useAuth();
