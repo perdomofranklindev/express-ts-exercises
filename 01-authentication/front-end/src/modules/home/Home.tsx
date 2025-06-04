@@ -5,7 +5,7 @@ import { SessionInfo } from "./components/SessionInfo";
 import { QuickActions } from "./components/QuickActions";
 import { RecentActivity } from "./components/RecentActivity";
 
-export const Home = () => {
+export default function Home() {
   return (
     <Box>
       <WelcomeSection />
