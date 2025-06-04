@@ -7,12 +7,10 @@ interface DashboardLayoutProps {
   children: React.ReactNode;
 }
 
-export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
+export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const theme = useTheme();
   return (
-    <Container
-      maxWidth="xl"
-    >
+    <Container maxWidth="xl">
       <Box
         sx={{
           paddingY: 10,
@@ -20,7 +18,6 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           gridTemplateColumns: "auto 2fr",
           gridTemplateRows: "auto 1fr",
           gap: `${theme.spacing(5)} ${theme.spacing(5)}`,
-
           gridTemplateAreas: `
           "sidebar header"
           "sidebar main"
@@ -45,4 +42,4 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       </Box>
     </Container>
   );
-};
+}
