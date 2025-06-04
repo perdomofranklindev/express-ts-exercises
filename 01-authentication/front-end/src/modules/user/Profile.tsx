@@ -29,7 +29,7 @@ const mockUser = {
   createdAt: "2023-01-15T10:30:00Z", // ISO date string
 };
 
-export function Profile() {
+export default function Profile() {
   const navigate = useNavigate();
 
   const { showSnackbar } = useSnackbar();
