@@ -6,12 +6,8 @@ interface PublicRouteProps {
 }
 
 export function PublicRoute({ children }: PublicRouteProps) {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated } = useAuth();
   const location = useLocation();
-
-  if (isLoading) {
-    return <div>Loading...</div>; // You can replace this with a proper loading component
-  }
 
   if (isAuthenticated) {
     // Redirect to home page if user is already authenticated
