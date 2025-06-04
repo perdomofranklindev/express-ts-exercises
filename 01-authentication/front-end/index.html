@@ -5,8 +5,78 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Authentication App</title>
+    <style>
+      #root {
+        min-height: 100vh;
+      }
+      
+      #initial-loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #f9fafb;
+        color: #111827;
+        font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        z-index: 9999;
+      }
+
+      #initial-loader .spinner {
+        width: 80px;
+        height: 80px;
+        border: 4px solid #e5e7eb;
+        border-top: 4px solid #2563eb;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 16px;
+      }
+
+      #initial-loader .title {
+        font-size: 24px;
+        font-weight: 500;
+        margin-bottom: 8px;
+        letter-spacing: 0.5px;
+      }
+
+      #initial-loader .subtitle {
+        font-size: 16px;
+        color: #4b5563;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      /* Dark mode support */
+      @media (prefers-color-scheme: dark) {
+        #initial-loader {
+          background-color: #030712;
+          color: #f9fafb;
+        }
+
+        #initial-loader .spinner {
+          border-color: #1f2937;
+          border-top-color: #60a5fa;
+        }
+
+        #initial-loader .subtitle {
+          color: #d1d5db;
+        }
+      }
+    </style>
   </head>
   <body>
+    <div id="initial-loader">
+      <div class="spinner"></div>
+      <div class="title">Loading Application</div>
+      <div class="subtitle">Please wait while we initialize the application</div>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
