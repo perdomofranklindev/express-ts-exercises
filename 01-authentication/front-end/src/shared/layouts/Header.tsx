@@ -63,7 +63,7 @@ export const Header = () => {
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Dashboard
+          iDashboard
         </Typography>
         
         {/* Theme Toggle */}
