@@ -1,13 +1,11 @@
-import {
-  Card,
-  CardContent,
-  Typography,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  Avatar,
-} from "@mui/material";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import ListItemText from "@mui/material/ListItemText";
+import Avatar from "@mui/material/Avatar";
 import { recentActivity } from "../constants";
 
 export const RecentActivity = () => {

@@ -1,4 +1,5 @@
-import { Box, Grid } from "@mui/material";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
 import { WelcomeSection } from "./components/WelcomeSection";
 import { StatsOverview } from "./components/StatsOverview";
 import { SessionInfo } from "./components/SessionInfo";

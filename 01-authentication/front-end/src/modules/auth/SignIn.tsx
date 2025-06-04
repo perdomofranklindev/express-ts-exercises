@@ -1,4 +1,8 @@
-import { Button, TextField, Typography, Box, Paper } from "@mui/material";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
 import { Link, useNavigate } from "react-router-dom";
 import { FormWrapper } from "../../shared/components/FormWrapper";
 import { useForm } from "react-hook-form";

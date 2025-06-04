@@ -1,6 +1,7 @@
 import React from "react";
 import { styled } from "@mui/material/styles";
-import { Snackbar as MuiSnackbar, Alert } from "@mui/material";
+import MuiSnackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 export type SnackbarType = "success" | "error" | "warning" | "info";
 

@@ -1,12 +1,10 @@
-import {
-  People,
-  Security,
-  Notifications,
-  TrendingUp,
-  Person,
-  Settings,
-  Lock,
-} from "@mui/icons-material";
+import People from "@mui/icons-material/People";
+import Security from "@mui/icons-material/Security";
+import Notifications from "@mui/icons-material/Notifications";
+import TrendingUp from "@mui/icons-material/TrendingUp";
+import Person from "@mui/icons-material/Person";
+import Settings from "@mui/icons-material/Settings";
+import Lock from "@mui/icons-material/Lock";
 
 export const stats = [
   {

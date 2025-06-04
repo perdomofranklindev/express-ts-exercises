@@ -1,5 +1,7 @@
 import React from "react";
-import { Box, Container, useTheme } from "@mui/material";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import { useTheme } from "@mui/material/styles";
 import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
 

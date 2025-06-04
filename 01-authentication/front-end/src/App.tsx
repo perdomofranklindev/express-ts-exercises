@@ -1,7 +1,9 @@
 import { RouterProvider } from "react-router-dom";
 import { AuthProvider } from "./modules/auth/AuthContext";
 import { router } from "./shared/routes/router";
-import { Box, CssBaseline, ThemeProvider } from "@mui/material";
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./shared/theme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";

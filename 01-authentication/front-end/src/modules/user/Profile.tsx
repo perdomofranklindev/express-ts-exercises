@@ -1,13 +1,11 @@
-import {
-  Button,
-  TextField,
-  Typography,
-  Box,
-  Paper,
-  Avatar,
-  Divider,
-  IconButton,
-} from "@mui/material";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Avatar from "@mui/material/Avatar";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
 import { Link, useNavigate } from "react-router-dom";
 import { Edit as EditIcon, PhotoCamera } from "@mui/icons-material";
 import { Lock as LockIcon } from "@mui/icons-material";

@@ -1,16 +1,17 @@
-import {
-  Box,
-  Card,
-  CardContent,
-  Typography,
-  Grid,
-  Paper,
-  Chip,
-  List,
-  ListItem,
-  ListItemText,
-} from "@mui/material";
-import { Cookie, AccessTime, Refresh, Security } from "@mui/icons-material";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import Chip from "@mui/material/Chip";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import Cookie from "@mui/icons-material/Cookie";
+import AccessTime from "@mui/icons-material/AccessTime";
+import Refresh from "@mui/icons-material/Refresh";
+import Security from "@mui/icons-material/Security";
 import { sessionInfo } from "../constants";
 
 export const SessionInfo = () => {

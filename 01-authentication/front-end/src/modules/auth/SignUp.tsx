@@ -1,12 +1,12 @@
-import {
-  Button,
-  TextField,
-  Typography,
-  Box,
-  Paper,
-  InputAdornment,
-  IconButton,
-} from "@mui/material";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Link, useNavigate } from "react-router-dom";
 import { FormWrapper } from "../../shared/components/FormWrapper";
 import { useForm } from "react-hook-form";
@@ -15,7 +15,6 @@ import { signUpSchema, type SignUpFormData } from "./schemas/signup-schema";
 import { useMutation } from "@tanstack/react-query";
 import { useSnackbar } from "../../shared/components/Snackbar/SnackbarContext";
 import { useEffect, useState } from "react";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useAuth } from "./AuthContext";
 
 export function SignUp() {

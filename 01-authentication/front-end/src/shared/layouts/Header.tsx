@@ -1,26 +1,24 @@
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  IconButton,
-  Avatar,
-  Popover,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Divider,
-  Box,
-  ListItemButton,
-} from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../modules/auth/AuthContext";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import Avatar from "@mui/material/Avatar";
+import Popover from "@mui/material/Popover";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Divider from "@mui/material/Divider";
+import Box from "@mui/material/Box";
+import ListItemButton from "@mui/material/ListItemButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SettingsIcon from "@mui/icons-material/Settings";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import PersonIcon from "@mui/icons-material/Person";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../modules/auth/AuthContext";
 import { ThemeToggle } from "../components/ThemeToggle/ThemeToggle";
 
 export const Header = () => {
