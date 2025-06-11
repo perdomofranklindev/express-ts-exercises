@@ -4,13 +4,15 @@
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:react-hooks/recommended"
+    "plugin:react-hooks/recommended",
+    "plugin:prettier/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "plugins": [
     "@typescript-eslint",
     "react-hooks",
-    "react-refresh"
+    "react-refresh",
+    "prettier"
   ],
   "env": {
     "browser": true,
@@ -22,6 +24,15 @@
     "react-refresh/only-export-components": [
       "warn",
       { "allowConstantExport": true }
-    ]
+    ],
+    "quotes": ["error", "single", { "avoidEscape": true }],
+    "prettier/prettier": "error"
+  },
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
   }
 } 
