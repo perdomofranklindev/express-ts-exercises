@@ -1,0 +1,14 @@
+{
+  "name": "auth-system",
+  "version": "1.0.0",
+  "description": "Full-stack authentication system with Express and React",
+  "scripts": {
+    "install:all": "npm install && cd front-end && npm install && cd ../back-end && npm install",
+    "dev": "concurrently \"cd back-end && npm run dev\" \"cd front-end && npm run dev\"",
+    "build": "cd back-end && npm run build && cd ../front-end && npm run build",
+    "start": "cd back-end && npm start"
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.0"
+  }
+} 
