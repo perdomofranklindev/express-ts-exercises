@@ -2,6 +2,10 @@
 
 A robust and production-ready starter template for building Express.js applications with TypeScript.
 
+## 📚 Documentation
+
+- [API Documentation](docs/API.md) - Detailed API endpoints documentation, including request/response formats, error codes, and authentication flows.
+
 ## 🚀 Technologies
 
 - **Node.js** (>=20.0.0) - JavaScript runtime
@@ -22,20 +26,13 @@ A robust and production-ready starter template for building Express.js applicati
 
 ## 🛠️ Installation
 
-1. Clone the repository:
-
-```bash
-git clone <your-repo-url>
-cd express-ts-starter
-```
-
-2. Install dependencies:
+1. Install dependencies:
 
 ```bash
 npm install
 ```
 
-3. Create a `.env` file in the root directory:
+2. Create a `.env` file in the root directory:
 
 ```bash
 cp .env.example .env  # if you have an example file
@@ -143,6 +140,8 @@ COOKIE_REFRESH_TOKEN_MAX_AGE=604800000  # Default: 604800000 (7 days in millisec
 
 Note: Both string format (e.g., '1h', '7d') and millisecond values are supported. The string format is used for JWT token expiration, while the millisecond values are used for cookie expiration.
 
+If you configure the cookie lifetimes through environment variables make sure to check this file [auth-session-constants](src/modules/auth-session/auth-session-constants.ts)
+
 ## 🔧 Available Scripts
 
 - `npm start` - Start the production server
@@ -178,76 +177,3 @@ describe('Your Test Suite', () => {
   });
 });
 ```
-
-## 📝 TypeScript Configuration
-
-The project uses strict TypeScript configuration for better type safety:
-
-- Strict mode enabled
-- No implicit any
-- Strict null checks
-- Strict function types
-- And more...
-
-## 🧹 Linting & Formatting
-
-The project uses ESLint and Prettier for code quality, consistency, and formatting. ESLint is configured to work seamlessly with Prettier to avoid conflicting rules.
-
-- **ESLint**: Checks for code quality and best practices in the `src` directory.
-- **Prettier**: Formats code for consistent style across the project.
-
-### Linting Commands
-
-- `npm run lint` - Check all TypeScript files in the `src` directory for linting issues
-- `npm run lint:fix` - Automatically fix linting issues in the `src` directory where possible
-- `npm run lint:check` - Strict check that fails if any warnings are found in the `src` directory
-
-### Formatting Commands
-
-- `npm run format` - Format all supported files in the `src` directory using Prettier
-- `npm run format:check` - Check if files are formatted according to Prettier rules
-
-The ESLint configuration includes:
-
-- `.eslintrc.json` - Main ESLint configuration file with:
-  - TypeScript-specific rules
-  - Best practices for Express applications
-  - Code style consistency
-  - Security best practices
-  - Prettier integration
-- `.eslintignore` - Explicitly defines which files and directories to ignore
-- `.prettierrc` - Prettier configuration file for code formatting rules
-- `.prettierignore` (optional) - Ignore files for Prettier formatting
-
-## 🧑‍💻 Prettier Usage
-
-Prettier is used to automatically format your code. You can run Prettier manually or integrate it with your editor for automatic formatting on save.
-
-- To format your codebase:
-  ```bash
-  npm run format
-  ```
-- To check if your code is formatted:
-  ```bash
-  npm run format:check
-  ```
-- You can customize formatting rules in the `.prettierrc` file.
-- To ignore files from formatting, add them to `.prettierignore`.
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the ISC License.
-
-## 🙏 Acknowledgments
-
-- Express.js team for the amazing framework
-- TypeScript team for the type system
-- All other open-source contributors
