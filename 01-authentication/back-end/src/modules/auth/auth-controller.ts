@@ -64,11 +64,11 @@ export class AuthController {
 
     const { email, password } = user;
 
-    const foundUser = await AuthUtils.findUser({ email });
+    const [foundUser, error] = await AuthUtils.findUser({ email });
 
-    if (!foundUser) {
+    if (error) {
       response.status(400).json({
-        message: 'User not found',
+        message: 'Invalid user',
       });
       return;
     }
@@ -103,10 +103,10 @@ export class AuthController {
     });
 
     response.status(200).json({
-      id: foundUser.id,
-      firstName: foundUser.firstName,
-      lastName: foundUser.lastName,
-      email: foundUser.email,
+      id: foundUser?.id,
+      firstName: foundUser?.firstName,
+      lastName: foundUser?.lastName,
+      email: foundUser?.email,
     });
   }
 
