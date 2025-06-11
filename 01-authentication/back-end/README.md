@@ -23,17 +23,20 @@ A robust and production-ready starter template for building Express.js applicati
 ## 🛠️ Installation
 
 1. Clone the repository:
+
 ```bash
 git clone <your-repo-url>
 cd express-ts-starter
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Create a `.env` file in the root directory:
+
 ```bash
 cp .env.example .env  # if you have an example file
 # or create it manually
@@ -44,11 +47,13 @@ cp .env.example .env  # if you have an example file
 ### Development
 
 Start the development server with hot reload:
+
 ```bash
 npm run dev
 ```
 
 This will:
+
 - Watch for TypeScript file changes
 - Automatically restart the server
 - Enable hot reloading
@@ -56,11 +61,13 @@ This will:
 ### Production
 
 Build the project:
+
 ```bash
 npm run build
 ```
 
 Start the production server:
+
 ```bash
 npm start
 ```
@@ -68,16 +75,19 @@ npm start
 ### Testing
 
 Run tests:
+
 ```bash
 npm test
 ```
 
 Run tests in watch mode:
+
 ```bash
 npm run test:watch
 ```
 
 Generate test coverage:
+
 ```bash
 npm run test:coverage
 ```
@@ -101,6 +111,37 @@ express-ts-starter/
 ├── dist/                 # Build output (ignored)
 └── coverage/            # Test coverage reports (ignored)
 ```
+
+## Cookie Lifetimes
+
+The project uses two types of cookies for authentication:
+
+1. **Access Token Cookie**
+
+   - Default lifetime: 1 hour
+   - Used for regular API access
+   - Automatically refreshed when valid
+
+2. **Refresh Token Cookie**
+   - Default lifetime: 7 days
+   - Used to obtain new access tokens
+   - Provides long-term authentication
+
+### Configuring Cookie Lifetimes
+
+You can customize the cookie lifetimes by setting the following environment variables:
+
+```env
+# Access Token Configuration
+ACCESS_TOKEN_EXPIRES_IN=1h  # Default: 1 hour
+COOKIE_ACCESS_TOKEN_MAX_AGE=3600000  # Default: 3600000 (1 hour in milliseconds)
+
+# Refresh Token Configuration
+REFRESH_TOKEN_EXPIRES_IN=7d  # Default: 7 days
+COOKIE_REFRESH_TOKEN_MAX_AGE=604800000  # Default: 604800000 (7 days in milliseconds)
+```
+
+Note: Both string format (e.g., '1h', '7d') and millisecond values are supported. The string format is used for JWT token expiration, while the millisecond values are used for cookie expiration.
 
 ## 🔧 Available Scripts
 
@@ -129,6 +170,7 @@ express-ts-starter/
 The project uses Jest for testing. Tests are located in the `src/__tests__` directory.
 
 Example test structure:
+
 ```typescript
 describe('Your Test Suite', () => {
   it('should do something', () => {
@@ -140,6 +182,7 @@ describe('Your Test Suite', () => {
 ## 📝 TypeScript Configuration
 
 The project uses strict TypeScript configuration for better type safety:
+
 - Strict mode enabled
 - No implicit any
 - Strict null checks
@@ -154,15 +197,18 @@ The project uses ESLint and Prettier for code quality, consistency, and formatti
 - **Prettier**: Formats code for consistent style across the project.
 
 ### Linting Commands
+
 - `npm run lint` - Check all TypeScript files in the `src` directory for linting issues
 - `npm run lint:fix` - Automatically fix linting issues in the `src` directory where possible
 - `npm run lint:check` - Strict check that fails if any warnings are found in the `src` directory
 
 ### Formatting Commands
+
 - `npm run format` - Format all supported files in the `src` directory using Prettier
 - `npm run format:check` - Check if files are formatted according to Prettier rules
 
 The ESLint configuration includes:
+
 - `.eslintrc.json` - Main ESLint configuration file with:
   - TypeScript-specific rules
   - Best practices for Express applications
@@ -204,4 +250,4 @@ This project is licensed under the ISC License.
 
 - Express.js team for the amazing framework
 - TypeScript team for the type system
-- All other open-source contributors 
+- All other open-source contributors
