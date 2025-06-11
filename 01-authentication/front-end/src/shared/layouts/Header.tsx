@@ -1,25 +1,25 @@
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import Avatar from "@mui/material/Avatar";
-import Popover from "@mui/material/Popover";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Divider from "@mui/material/Divider";
-import Box from "@mui/material/Box";
-import ListItemButton from "@mui/material/ListItemButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import LogoutIcon from "@mui/icons-material/Logout";
-import SettingsIcon from "@mui/icons-material/Settings";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import PersonIcon from "@mui/icons-material/Person";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../modules/auth/AuthContext";
-import { ThemeToggle } from "../components/ThemeToggle/ThemeToggle";
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import Avatar from '@mui/material/Avatar';
+import Popover from '@mui/material/Popover';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
+import Box from '@mui/material/Box';
+import ListItemButton from '@mui/material/ListItemButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import LogoutIcon from '@mui/icons-material/Logout';
+import SettingsIcon from '@mui/icons-material/Settings';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import PersonIcon from '@mui/icons-material/Person';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../modules/auth/AuthContext';
+import { ThemeToggle } from '../components/ThemeToggle/ThemeToggle';
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -36,11 +36,11 @@ export const Header = () => {
 
   const handleLogout = async () => {
     await signOut();
-    navigate("/auth/sign-in");
+    navigate('/auth/sign-in');
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? "user-popover" : undefined;
+  const id = open ? 'user-popover' : undefined;
 
   return (
     <AppBar
@@ -48,22 +48,18 @@ export const Header = () => {
       sx={{
         zIndex: (theme) => theme.zIndex.drawer + 1,
         borderRadius: 2,
-        bgcolor: "background.paper",
-        color: "text.primary",
+        bgcolor: 'background.paper',
+        color: 'text.primary',
       }}
     >
       <Toolbar>
-        <IconButton
-          color="inherit"
-          edge="start"
-          sx={{ mr: 2, display: { sm: "none" } }}
-        >
+        <IconButton color="inherit" edge="start" sx={{ mr: 2, display: { sm: 'none' } }}>
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           iDashboard
         </Typography>
-        
+
         {/* Theme Toggle */}
         <ThemeToggle />
 
@@ -73,13 +69,10 @@ export const Header = () => {
         </IconButton>
 
         {/* User Avatar */}
-        <IconButton
-          onClick={handleClick}
-          sx={{ p: 0 }}
-        >
+        <IconButton onClick={handleClick} sx={{ p: 0 }}>
           <Avatar
             sx={{
-              bgcolor: "primary.main",
+              bgcolor: 'primary.main',
               width: 40,
               height: 40,
             }}
@@ -95,27 +88,27 @@ export const Header = () => {
           anchorEl={anchorEl}
           onClose={handleClose}
           anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "right",
+            vertical: 'bottom',
+            horizontal: 'right',
           }}
           transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
+            vertical: 'top',
+            horizontal: 'right',
           }}
         >
           <Box sx={{ width: 240, p: 1 }}>
             <List>
               <ListItem>
                 <ListItemIcon>
-                  <Avatar sx={{ width: 32, height: 32, bgcolor: "primary.main" }}>
+                  <Avatar sx={{ width: 32, height: 32, bgcolor: 'primary.main' }}>
                     <PersonIcon />
                   </Avatar>
                 </ListItemIcon>
-                <ListItemText 
-                  primary="John Doe" 
+                <ListItemText
+                  primary="John Doe"
                   secondary="john.doe@example.com"
-                  primaryTypographyProps={{ variant: "subtitle2" }}
-                  secondaryTypographyProps={{ variant: "caption" }}
+                  primaryTypographyProps={{ variant: 'subtitle2' }}
+                  secondaryTypographyProps={{ variant: 'caption' }}
                 />
               </ListItem>
               <Divider sx={{ my: 1 }} />

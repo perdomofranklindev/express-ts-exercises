@@ -1,22 +1,22 @@
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Typography from "@mui/material/Typography";
-import { useLocation, Link } from "react-router-dom";
-import HomeIcon from "@mui/icons-material/Home";
-import PersonIcon from "@mui/icons-material/Person";
-import LockIcon from "@mui/icons-material/Lock";
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Typography from '@mui/material/Typography';
+import { useLocation, Link } from 'react-router-dom';
+import HomeIcon from '@mui/icons-material/Home';
+import PersonIcon from '@mui/icons-material/Person';
+import LockIcon from '@mui/icons-material/Lock';
 
 const navigation = [
-  { name: "Home", path: "/", icon: <HomeIcon /> },
-  { name: "Profile", path: "/user/profile", icon: <PersonIcon /> },
+  { name: 'Home', path: '/', icon: <HomeIcon /> },
+  { name: 'Profile', path: '/user/profile', icon: <PersonIcon /> },
   {
-    name: "Change Password",
-    path: "/user/change-password",
+    name: 'Change Password',
+    path: '/user/change-password',
     icon: <LockIcon />,
   },
 ];
@@ -29,11 +29,11 @@ export const Sidebar = () => {
       sx={{
         p: 3,
         flexShrink: 0,
-        height: "100%",
+        height: '100%',
       }}
     >
       <Box>
-        <Typography variant="h4" sx={{ p: 2, textAlign: "center" }}>
+        <Typography variant="h4" sx={{ p: 2, textAlign: 'center' }}>
           iDashboard
         </Typography>
       </Box>
@@ -46,24 +46,23 @@ export const Sidebar = () => {
               selected={location.pathname === item.path}
               sx={{
                 borderRadius: 8,
-                textDecoration: "none",
-                color: "inherit",
-                transition: "all 0.2s ease-in-out",
-                bgcolor:
-                  location.pathname === item.path ? "primary.main" : "inherit",
-                "&.Mui-selected": {
-                  bgcolor: "primary.main",
-                  color: "primary.contrastText",
-                  "& .MuiListItemIcon-root": {
-                    color: "primary.contrastText",
-                    transition: "color 0.2s ease-in-out",
+                textDecoration: 'none',
+                color: 'inherit',
+                transition: 'all 0.2s ease-in-out',
+                bgcolor: location.pathname === item.path ? 'primary.main' : 'inherit',
+                '&.Mui-selected': {
+                  bgcolor: 'primary.main',
+                  color: 'primary.contrastText',
+                  '& .MuiListItemIcon-root': {
+                    color: 'primary.contrastText',
+                    transition: 'color 0.2s ease-in-out',
                   },
-                  "&:hover": {
-                    bgcolor: "primary.dark",
+                  '&:hover': {
+                    bgcolor: 'primary.dark',
                   },
                 },
-                "&:hover": {
-                  bgcolor: "action.hover",
+                '&:hover': {
+                  bgcolor: 'action.hover',
                 },
               }}
             >

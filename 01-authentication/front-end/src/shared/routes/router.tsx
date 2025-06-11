@@ -1,23 +1,21 @@
-import { createBrowserRouter } from "react-router-dom";
-import { SignIn } from "../../modules/auth/SignIn";
-import { SignUp } from "../../modules/auth/SignUp";
-import { PublicRoute } from "./PublicRoute";
-import { ProtectedRoute } from "./ProtectedRoute";
-import { Outlet } from "react-router-dom";
-import { lazy, Suspense } from "react";
-import { AppLoader } from "../components/loaders/AppLoader";
-import { ModuleLoader } from "../components/loaders/ModuleLoader";
+import { createBrowserRouter } from 'react-router-dom';
+import { SignIn } from '../../modules/auth/SignIn';
+import { SignUp } from '../../modules/auth/SignUp';
+import { PublicRoute } from './PublicRoute';
+import { ProtectedRoute } from './ProtectedRoute';
+import { Outlet } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
+import { AppLoader } from '../components/loaders/AppLoader';
+import { ModuleLoader } from '../components/loaders/ModuleLoader';
 
-const DashboardLayout = lazy(
-  () => import("../../shared/layouts/DashboardLayout")
-);
-const Home = lazy(() => import("../../modules/home/Home"));
-const Profile = lazy(() => import("../../modules/user/Profile"));
-const ChangePassword = lazy(() => import("../../modules/user/ChangePassword"));
+const DashboardLayout = lazy(() => import('../../shared/layouts/DashboardLayout'));
+const Home = lazy(() => import('../../modules/home/Home'));
+const Profile = lazy(() => import('../../modules/user/Profile'));
+const ChangePassword = lazy(() => import('../../modules/user/ChangePassword'));
 
 export const router = createBrowserRouter([
   {
-    path: "/auth",
+    path: '/auth',
     element: (
       <Suspense fallback={<ModuleLoader moduleName="View" />}>
         <PublicRoute>
@@ -27,17 +25,17 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "sign-in",
+        path: 'sign-in',
         element: <SignIn />,
       },
       {
-        path: "sign-up",
+        path: 'sign-up',
         element: <SignUp />,
       },
     ],
   },
   {
-    path: "/",
+    path: '/',
     element: (
       <ProtectedRoute>
         <Suspense fallback={<AppLoader />}>
@@ -55,14 +53,14 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "user",
+        path: 'user',
         children: [
           {
-            path: "profile",
+            path: 'profile',
             element: <Profile />,
           },
           {
-            path: "change-password",
+            path: 'change-password',
             element: <ChangePassword />,
           },
         ],

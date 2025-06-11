@@ -1,17 +1,17 @@
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import { Link, useNavigate } from "react-router-dom";
-import { FormWrapper } from "../../shared/components/FormWrapper";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { signInSchema, type SignInFormData } from "./schemas/auth-schema";
-import { useMutation } from "@tanstack/react-query";
-import { useSnackbar } from "../../shared/components/Snackbar/SnackbarContext";
-import { useEffect } from "react";
-import { useAuth } from "./AuthContext";
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import { Link, useNavigate } from 'react-router-dom';
+import { FormWrapper } from '../../shared/components/FormWrapper';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { signInSchema, type SignInFormData } from './schemas/auth-schema';
+import { useMutation } from '@tanstack/react-query';
+import { useSnackbar } from '../../shared/components/Snackbar/SnackbarContext';
+import { useEffect } from 'react';
+import { useAuth } from './useAuth';
 
 export function SignIn() {
   const navigate = useNavigate();
@@ -29,12 +29,12 @@ export function SignIn() {
   const signInMutation = useMutation({
     mutationFn: (data: SignInFormData) => signIn(data.email, data.password),
     onSuccess: () => {
-      showSnackbar("Signed in successfully!", "success");
-      navigate("/");
+      showSnackbar('Signed in successfully!', 'success');
+      navigate('/');
     },
     onError: (error: Error) => {
       console.log(error);
-      showSnackbar(error.message, "error");
+      showSnackbar(error.message, 'error');
     },
   });
 
@@ -43,12 +43,12 @@ export function SignIn() {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       if (signInMutation.isPending) {
         e.preventDefault();
-        e.returnValue = "";
+        e.returnValue = '';
       }
     };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [signInMutation.isPending]);
 
   const onSubmit = (data: SignInFormData) => {
@@ -59,16 +59,11 @@ export function SignIn() {
 
   return (
     <FormWrapper maxWidth="xs">
-      <Paper elevation={3} sx={{ p: 4, width: "100%" }}>
+      <Paper elevation={3} sx={{ p: 4, width: '100%' }}>
         <Typography component="h1" variant="h5" align="center" gutterBottom>
           Sign In
         </Typography>
-        <Box
-          component="form"
-          onSubmit={handleSubmit(onSubmit)}
-          sx={{ mt: 1 }}
-          autoComplete="on"
-        >
+        <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1 }} autoComplete="on">
           <TextField
             margin="normal"
             fullWidth
@@ -78,7 +73,7 @@ export function SignIn() {
             autoFocus
             error={!!errors.email}
             helperText={errors.email?.message}
-            {...register("email")}
+            {...register('email')}
             disabled={isLoading}
           />
           <TextField
@@ -90,7 +85,7 @@ export function SignIn() {
             autoComplete="current-password"
             error={!!errors.password}
             helperText={errors.password?.message}
-            {...register("password")}
+            {...register('password')}
             disabled={isLoading}
           />
           <Button
@@ -102,11 +97,8 @@ export function SignIn() {
           >
             Sign In
           </Button>
-          <Box sx={{ textAlign: "center" }}>
-            <Link
-              to="/auth/sign-up"
-              style={{ pointerEvents: isLoading ? "none" : "auto" }}
-            >
+          <Box sx={{ textAlign: 'center' }}>
+            <Link to="/auth/sign-up" style={{ pointerEvents: isLoading ? 'none' : 'auto' }}>
               {"Don't have an account? Sign Up"}
             </Link>
           </Box>

@@ -1,9 +1,9 @@
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import { stats } from "../constants";
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import { stats } from '../constants';
 
 export const StatsOverview = () => {
   return (
@@ -20,18 +20,18 @@ export const StatsOverview = () => {
           <Card
             sx={{
               borderRadius: 2,
-              height: "100%",
-              transition: "transform 0.2s",
-              "&:hover": {
-                transform: "translateY(-4px)",
+              height: '100%',
+              transition: 'transform 0.2s',
+              '&:hover': {
+                transform: 'translateY(-4px)',
               },
             }}
           >
             <CardContent>
               <Box
                 sx={{
-                  display: "flex",
-                  alignItems: "center",
+                  display: 'flex',
+                  alignItems: 'center',
                   mb: 2,
                 }}
               >

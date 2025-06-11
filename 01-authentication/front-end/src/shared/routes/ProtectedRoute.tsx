@@ -1,6 +1,6 @@
-import { Navigate, useLocation } from "react-router-dom";
-import { useAuth } from "../../modules/auth/AuthContext";
-import { SessionLoader } from "../components/loaders/SessionLoader";
+import { Navigate, useLocation } from 'react-router-dom';
+import { SessionLoader } from '../components/loaders/SessionLoader';
+import { useAuth } from '../../modules/auth/useAuth';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;

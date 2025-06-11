@@ -1,21 +1,21 @@
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import InputAdornment from "@mui/material/InputAdornment";
-import IconButton from "@mui/material/IconButton";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { Link, useNavigate } from "react-router-dom";
-import { FormWrapper } from "../../shared/components/FormWrapper";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { signUpSchema, type SignUpFormData } from "./schemas/signup-schema";
-import { useMutation } from "@tanstack/react-query";
-import { useSnackbar } from "../../shared/components/Snackbar/SnackbarContext";
-import { useEffect, useState } from "react";
-import { useAuth } from "./AuthContext";
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { Link, useNavigate } from 'react-router-dom';
+import { FormWrapper } from '../../shared/components/FormWrapper';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { signUpSchema, type SignUpFormData } from './schemas/signup-schema';
+import { useMutation } from '@tanstack/react-query';
+import { useSnackbar } from '../../shared/components/Snackbar/SnackbarContext';
+import { useEffect, useState } from 'react';
+import { useAuth } from './useAuth';
 
 export function SignUp() {
   const navigate = useNavigate();
@@ -25,8 +25,7 @@ export function SignUp() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleClickShowConfirmPassword = () =>
-    setShowConfirmPassword((show) => !show);
+  const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
 
   const {
     register,
@@ -37,14 +36,14 @@ export function SignUp() {
   });
 
   const signUpMutation = useMutation({
-    mutationFn: (data: Omit<SignUpFormData, "confirmPassword">) =>
+    mutationFn: (data: Omit<SignUpFormData, 'confirmPassword'>) =>
       signUp(data.email, data.password, data.firstName, data.lastName),
     onSuccess: () => {
-      showSnackbar("Account created successfully!", "success");
-      navigate("/auth/sign-in");
+      showSnackbar('Account created successfully!', 'success');
+      navigate('/auth/sign-in');
     },
     onError: (error: Error) => {
-      showSnackbar(error.message, "error");
+      showSnackbar(error.message, 'error');
     },
   });
 
@@ -53,15 +52,16 @@ export function SignUp() {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       if (signUpMutation.isPending) {
         e.preventDefault();
-        e.returnValue = "";
+        e.returnValue = '';
       }
     };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [signUpMutation.isPending]);
 
   const onSubmit = (data: SignUpFormData) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { confirmPassword, ...rest } = data;
     signUpMutation.mutate(rest);
   };
@@ -70,7 +70,7 @@ export function SignUp() {
 
   return (
     <FormWrapper maxWidth="xs">
-      <Paper elevation={3} sx={{ p: 4, width: "100%" }}>
+      <Paper elevation={3} sx={{ p: 4, width: '100%' }}>
         <Typography component="h1" variant="h5" align="center" gutterBottom>
           Sign Up
         </Typography>
@@ -80,7 +80,7 @@ export function SignUp() {
             fullWidth
             id="firstName"
             label="First Name"
-            {...register("firstName")}
+            {...register('firstName')}
             error={!!errors.firstName}
             helperText={errors.firstName?.message}
             autoComplete="given-name"
@@ -92,7 +92,7 @@ export function SignUp() {
             fullWidth
             id="lastName"
             label="Last Name"
-            {...register("lastName")}
+            {...register('lastName')}
             error={!!errors.lastName}
             helperText={errors.lastName?.message}
             autoComplete="family-name"
@@ -103,7 +103,7 @@ export function SignUp() {
             fullWidth
             id="email"
             label="Email Address"
-            {...register("email")}
+            {...register('email')}
             error={!!errors.email}
             helperText={errors.email?.message}
             autoComplete="email"
@@ -113,9 +113,9 @@ export function SignUp() {
             margin="normal"
             fullWidth
             label="Password"
-            type={showPassword ? "text" : "password"}
+            type={showPassword ? 'text' : 'password'}
             id="password"
-            {...register("password")}
+            {...register('password')}
             error={!!errors.password}
             helperText={errors.password?.message}
             autoComplete="new-password"
@@ -140,9 +140,9 @@ export function SignUp() {
             margin="normal"
             fullWidth
             label="Confirm Password"
-            type={showConfirmPassword ? "text" : "password"}
+            type={showConfirmPassword ? 'text' : 'password'}
             id="confirmPassword"
-            {...register("confirmPassword")}
+            {...register('confirmPassword')}
             error={!!errors.confirmPassword}
             helperText={errors.confirmPassword?.message}
             autoComplete="new-password"
@@ -171,14 +171,11 @@ export function SignUp() {
             disabled={isLoading}
             loading={isLoading}
           >
-            {"Sign Up"}
+            {'Sign Up'}
           </Button>
-          <Box sx={{ textAlign: "center" }}>
-            <Link
-              to="/auth/sign-in"
-              style={{ pointerEvents: isLoading ? "none" : "auto" }}
-            >
-              {"Already have an account? Sign In"}
+          <Box sx={{ textAlign: 'center' }}>
+            <Link to="/auth/sign-in" style={{ pointerEvents: isLoading ? 'none' : 'auto' }}>
+              {'Already have an account? Sign In'}
             </Link>
           </Box>
         </Box>

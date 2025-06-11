@@ -1,10 +1,10 @@
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import { WelcomeSection } from "./components/WelcomeSection";
-import { StatsOverview } from "./components/StatsOverview";
-import { SessionInfo } from "./components/SessionInfo";
-import { QuickActions } from "./components/QuickActions";
-import { RecentActivity } from "./components/RecentActivity";
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import { WelcomeSection } from './components/WelcomeSection';
+import { StatsOverview } from './components/StatsOverview';
+import { SessionInfo } from './components/SessionInfo';
+import { QuickActions } from './components/QuickActions';
+import { RecentActivity } from './components/RecentActivity';
 
 export default function Home() {
   return (
@@ -37,4 +37,4 @@ export default function Home() {
       </Grid>
     </Box>
   );
-};
+}

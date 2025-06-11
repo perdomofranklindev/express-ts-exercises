@@ -9,7 +9,7 @@ import {
   type CheckTokenResponse,
   type ChangePasswordData,
   AuthErrorCode,
-} from "./types";
+} from './types';
 
 class ApiError extends Error {
   public status: number;
@@ -17,32 +17,31 @@ class ApiError extends Error {
 
   constructor(message: string, status: number, code?: AuthErrorCodeType) {
     super(message);
-    this.name = "ApiError";
+    this.name = 'ApiError';
     this.status = status;
     this.code = code;
   }
 }
 
+type PendingRequest<T> = () => Promise<T>;
+
 class ApiClient {
   private baseUrl: string;
   private isRefreshing: boolean = false;
-  private pendingRequests: Array<() => Promise<any>> = [];
+  private pendingRequests: PendingRequest<unknown>[] = [];
 
   constructor() {
     this.baseUrl = import.meta.env.VITE_API_URL;
   }
 
-  private async request<T>(
-    endpoint: string,
-    options: RequestInit = {}
-  ): Promise<T> {
+  private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
       ...options,
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         ...options.headers,
       },
-      credentials: "include",
+      credentials: 'include',
     });
 
     const data = await response.json();
@@ -55,10 +54,7 @@ class ApiClient {
     return data;
   }
 
-  private async protectedRequest<T>(
-    endpoint: string,
-    options: RequestInit = {}
-  ): Promise<T> {
+  private async protectedRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
     try {
       // First attempt: Try the request with current credentials
       return await this.request<T>(endpoint, options);
@@ -92,7 +88,7 @@ class ApiClient {
                 refreshError.code === AuthErrorCode.INVALID_REFRESH_TOKEN)
             ) {
               // Redirect to login if refresh token is invalid
-              window.location.href = "/auth/sign-in";
+              window.location.href = '/auth/sign-in';
             }
             throw refreshError;
           } finally {
@@ -117,33 +113,30 @@ class ApiClient {
   // Auth.
 
   async signUp(data: SignUpData): Promise<SignUpResponse> {
-    return this.request("/api/auth/sign-up", {
-      method: "POST",
+    return this.request('/api/auth/sign-up', {
+      method: 'POST',
       body: JSON.stringify(data),
     });
   }
 
   async signIn(data: SignInData): Promise<ApiResponse> {
-    return this.request("/api/auth/sign-in", {
-      method: "POST",
+    return this.request('/api/auth/sign-in', {
+      method: 'POST',
       body: JSON.stringify(data),
     });
   }
 
   async signOut(): Promise<ApiResponse> {
-    return this.request("/api/auth/sign-out", {
-      method: "POST",
+    return this.request('/api/auth/sign-out', {
+      method: 'POST',
     });
   }
 
   async refreshToken(): Promise<ApiResponse> {
     try {
-      const response = await this.request<ApiResponse>(
-        "/api/auth/refresh-token",
-        {
-          method: "POST",
-        }
-      );
+      const response = await this.request<ApiResponse>('/api/auth/refresh-token', {
+        method: 'POST',
+      });
       return response;
     } finally {
       this.isRefreshing = false;
@@ -152,22 +145,22 @@ class ApiClient {
   }
 
   async checkToken(): Promise<CheckTokenResponse> {
-    return this.request("/api/auth/check-token", {
-      method: "GET",
+    return this.request('/api/auth/check-token', {
+      method: 'GET',
     });
   }
 
   // User.
 
   async getUserProfile(): Promise<UserProfile> {
-    return this.protectedRequest("/api/user/profile", {
-      method: "GET",
+    return this.protectedRequest('/api/user/profile', {
+      method: 'GET',
     });
   }
 
   async changePassword(data: ChangePasswordData): Promise<ApiResponse> {
-    return this.protectedRequest("/api/user/change-password", {
-      method: "POST",
+    return this.protectedRequest('/api/user/change-password', {
+      method: 'POST',
       body: JSON.stringify(data),
     });
   }

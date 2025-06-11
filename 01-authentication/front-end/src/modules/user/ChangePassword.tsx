@@ -1,23 +1,23 @@
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import InputAdornment from "@mui/material/InputAdornment";
-import IconButton from "@mui/material/IconButton";
-import Container from "@mui/material/Container";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import Container from '@mui/material/Container';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   changePasswordSchema,
   type ChangePasswordFormData,
-} from "./schemas/change-password.schema";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useState, useEffect } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { useSnackbar } from "../../shared/components/Snackbar/SnackbarContext";
-import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "../auth/AuthContext";
+} from './schemas/change-password.schema';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { useState, useEffect } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import { useSnackbar } from '../../shared/components/Snackbar/SnackbarContext';
+import { useNavigate, Link } from 'react-router-dom';
+import { useAuth } from '../auth/useAuth';
 
 export default function ChangePassword() {
   const navigate = useNavigate();
@@ -35,9 +35,9 @@ export default function ChangePassword() {
   } = useForm<ChangePasswordFormData>({
     resolver: zodResolver(changePasswordSchema),
     defaultValues: {
-      currentPassword: "",
-      newPassword: "",
-      confirmNewPassword: "",
+      currentPassword: '',
+      newPassword: '',
+      confirmNewPassword: '',
     },
   });
 
@@ -45,12 +45,12 @@ export default function ChangePassword() {
     mutationFn: (data: ChangePasswordFormData) =>
       changePassword(data.currentPassword, data.newPassword),
     onSuccess: () => {
-      showSnackbar("Password changed successfully!", "success");
+      showSnackbar('Password changed successfully!', 'success');
       reset();
-      navigate("/user/profile");
+      navigate('/user/profile');
     },
     onError: (error: Error) => {
-      showSnackbar(error.message, "error");
+      showSnackbar(error.message, 'error');
     },
   });
 
@@ -59,12 +59,12 @@ export default function ChangePassword() {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       if (changePasswordMutation.isPending) {
         e.preventDefault();
-        e.returnValue = "";
+        e.returnValue = '';
       }
     };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [changePasswordMutation.isPending]);
 
   const onSubmit = (data: ChangePasswordFormData) => {
@@ -75,16 +75,11 @@ export default function ChangePassword() {
 
   return (
     <Container maxWidth="xs">
-      <Paper elevation={3} sx={{ p: 4, width: "100%" }}>
+      <Paper elevation={3} sx={{ p: 4, width: '100%' }}>
         <Typography component="h1" variant="h5" align="center" gutterBottom>
           Change Password
         </Typography>
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          align="center"
-          sx={{ mb: 3 }}
-        >
+        <Typography variant="body2" color="text.secondary" align="center" sx={{ mb: 3 }}>
           Please enter your current password and your new password
         </Typography>
         <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1 }}>
@@ -92,22 +87,20 @@ export default function ChangePassword() {
             margin="normal"
             fullWidth
             label="Current Password"
-            type={showCurrentPassword ? "text" : "password"}
+            type={showCurrentPassword ? 'text' : 'password'}
             id="currentPassword"
             autoComplete="current-password"
             error={!!errors.currentPassword}
             helperText={errors.currentPassword?.message}
             disabled={isLoading}
-            {...register("currentPassword")}
+            {...register('currentPassword')}
             slotProps={{
               input: {
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
                       aria-label="toggle current password visibility"
-                      onClick={() =>
-                        setShowCurrentPassword(!showCurrentPassword)
-                      }
+                      onClick={() => setShowCurrentPassword(!showCurrentPassword)}
                       edge="end"
                     >
                       {showCurrentPassword ? <VisibilityOff /> : <Visibility />}
@@ -121,13 +114,13 @@ export default function ChangePassword() {
             margin="normal"
             fullWidth
             label="New Password"
-            type={showNewPassword ? "text" : "password"}
+            type={showNewPassword ? 'text' : 'password'}
             id="newPassword"
             autoComplete="new-password"
             error={!!errors.newPassword}
             helperText={errors.newPassword?.message}
             disabled={isLoading}
-            {...register("newPassword")}
+            {...register('newPassword')}
             slotProps={{
               input: {
                 endAdornment: (
@@ -148,22 +141,20 @@ export default function ChangePassword() {
             margin="normal"
             fullWidth
             label="Confirm New Password"
-            type={showConfirmPassword ? "text" : "password"}
+            type={showConfirmPassword ? 'text' : 'password'}
             id="confirmNewPassword"
             autoComplete="new-password"
             error={!!errors.confirmNewPassword}
             helperText={errors.confirmNewPassword?.message}
             disabled={isLoading}
-            {...register("confirmNewPassword")}
+            {...register('confirmNewPassword')}
             slotProps={{
               input: {
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
                       aria-label="toggle confirm password visibility"
-                      onClick={() =>
-                        setShowConfirmPassword(!showConfirmPassword)
-                      }
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                       edge="end"
                     >
                       {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
@@ -173,14 +164,9 @@ export default function ChangePassword() {
               },
             }}
           />
-          <Box sx={{ mt: 3, display: "flex", gap: 2 }}>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              disabled={isLoading}
-            >
-              {isLoading ? "Updating..." : "Update Password"}
+          <Box sx={{ mt: 3, display: 'flex', gap: 2 }}>
+            <Button type="submit" fullWidth variant="contained" disabled={isLoading}>
+              {isLoading ? 'Updating...' : 'Update Password'}
             </Button>
             <Button
               fullWidth

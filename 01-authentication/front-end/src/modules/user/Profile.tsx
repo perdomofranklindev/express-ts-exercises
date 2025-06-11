@@ -1,30 +1,30 @@
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Avatar from "@mui/material/Avatar";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import { Link, useNavigate } from "react-router-dom";
-import { Edit as EditIcon, PhotoCamera } from "@mui/icons-material";
-import { Lock as LockIcon } from "@mui/icons-material";
-import { useMutation } from "@tanstack/react-query";
-import { useSnackbar } from "../../shared/components/Snackbar/SnackbarContext";
-import { useEffect } from "react";
-import { useAuth } from "../auth/AuthContext";
-import dayjs from "dayjs";
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Avatar from '@mui/material/Avatar';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import { Link, useNavigate } from 'react-router-dom';
+import { Edit as EditIcon, PhotoCamera } from '@mui/icons-material';
+import { Lock as LockIcon } from '@mui/icons-material';
+import { useMutation } from '@tanstack/react-query';
+import { useSnackbar } from '../../shared/components/Snackbar/SnackbarContext';
+import { useEffect } from 'react';
+import { useAuth } from '../auth/useAuth';
+import dayjs from 'dayjs';
 
 // Mock user data
 const mockUser = {
-  name: "John Doe",
-  email: "john.doe@example.com",
-  role: "Software Engineer",
-  avatar: "https://i.pravatar.cc/300",
-  bio: "Passionate about creating beautiful and functional user interfaces. Love working with React and TypeScript.",
-  location: "San Francisco, CA",
-  joinDate: "January 2023",
-  createdAt: "2023-01-15T10:30:00Z", // ISO date string
+  name: 'John Doe',
+  email: 'john.doe@example.com',
+  role: 'Software Engineer',
+  avatar: 'https://i.pravatar.cc/300',
+  bio: 'Passionate about creating beautiful and functional user interfaces. Love working with React and TypeScript.',
+  location: 'San Francisco, CA',
+  joinDate: 'January 2023',
+  createdAt: '2023-01-15T10:30:00Z', // ISO date string
 };
 
 export default function Profile() {
@@ -36,11 +36,11 @@ export default function Profile() {
   const signOutMutation = useMutation({
     mutationFn: () => signOut(),
     onSuccess: () => {
-      showSnackbar("Signed out successfully!", "success");
-      navigate("/auth/sign-in");
+      showSnackbar('Signed out successfully!', 'success');
+      navigate('/auth/sign-in');
     },
     onError: (error: Error) => {
-      showSnackbar(error.message, "error");
+      showSnackbar(error.message, 'error');
     },
   });
 
@@ -49,12 +49,12 @@ export default function Profile() {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       if (signOutMutation.isPending) {
         e.preventDefault();
-        e.returnValue = "";
+        e.returnValue = '';
       }
     };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [signOutMutation.isPending]);
 
   const handleSignOut = () => {
@@ -62,15 +62,15 @@ export default function Profile() {
   };
 
   return (
-    <Paper elevation={3} sx={{ p: 4, width: "100%" }}>
+    <Paper elevation={3} sx={{ p: 4, width: '100%' }}>
       {/* Header Section */}
-      <Box sx={{ position: "relative", mb: 4 }}>
+      <Box sx={{ position: 'relative', mb: 4 }}>
         <Box
           sx={{
             height: 120,
-            backgroundColor: "primary.main",
-            borderRadius: "12px 12px 0 0",
-            position: "absolute",
+            backgroundColor: 'primary.main',
+            borderRadius: '12px 12px 0 0',
+            position: 'absolute',
             top: -24,
             left: -24,
             right: -24,
@@ -78,31 +78,31 @@ export default function Profile() {
         />
         <Box
           sx={{
-            position: "relative",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            position: 'relative',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
             pt: 8,
           }}
         >
-          <Box sx={{ position: "relative" }}>
+          <Box sx={{ position: 'relative' }}>
             <Avatar
               sx={{
                 width: 120,
                 height: 120,
-                border: "4px solid white",
-                boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
+                border: '4px solid white',
+                boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
               }}
               alt={mockUser.name}
               src={mockUser.avatar}
             />
             <IconButton
               sx={{
-                position: "absolute",
+                position: 'absolute',
                 bottom: 0,
                 right: 0,
-                backgroundColor: "white",
-                "&:hover": { backgroundColor: "grey.100" },
+                backgroundColor: 'white',
+                '&:hover': { backgroundColor: 'grey.100' },
               }}
               size="small"
             >
@@ -124,9 +124,9 @@ export default function Profile() {
       <Box component="form" sx={{ mt: 1 }}>
         <Box
           sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
             mb: 2,
           }}
         >
@@ -136,8 +136,8 @@ export default function Profile() {
           </IconButton>
         </Box>
 
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          <Box sx={{ display: "flex", gap: 2 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <Box sx={{ display: 'flex', gap: 2 }}>
             <TextField
               fullWidth
               label="First Name"
@@ -159,7 +159,7 @@ export default function Profile() {
               }}
             />
           </Box>
-          <Box sx={{ display: "flex", gap: 2 }}>
+          <Box sx={{ display: 'flex', gap: 2 }}>
             <TextField
               fullWidth
               label="Email"
@@ -181,7 +181,7 @@ export default function Profile() {
               }}
             />
           </Box>
-          <Box sx={{ display: "flex", gap: 2 }}>
+          <Box sx={{ display: 'flex', gap: 2 }}>
             <TextField
               fullWidth
               label="Location"
@@ -195,9 +195,7 @@ export default function Profile() {
             <TextField
               fullWidth
               label="Created At"
-              defaultValue={dayjs(mockUser.createdAt).format(
-                "MMMM D, YYYY [at] h:mm A"
-              )}
+              defaultValue={dayjs(mockUser.createdAt).format('MMMM D, YYYY [at] h:mm A')}
               slotProps={{
                 input: {
                   readOnly: true,
@@ -218,9 +216,7 @@ export default function Profile() {
           defaultValue={mockUser.bio}
         />
 
-        <Box
-          sx={{ mt: 3, display: "flex", gap: 2, justifyContent: "flex-end" }}
-        >
+        <Box sx={{ mt: 3, display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
           <Button
             variant="outlined"
             color="error"
