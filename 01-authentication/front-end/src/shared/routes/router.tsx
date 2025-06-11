@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { SignIn } from '../../modules/auth/SignIn';
-import { SignUp } from '../../modules/auth/SignUp';
+import SignIn from '../../modules/auth/SignIn';
+import SignUp from '../../modules/auth/SignUp';
 import { PublicRoute } from './PublicRoute';
 import { ProtectedRoute } from './ProtectedRoute';
 import { Outlet } from 'react-router-dom';
