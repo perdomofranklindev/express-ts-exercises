@@ -18,8 +18,8 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import PersonIcon from '@mui/icons-material/Person';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../modules/auth/AuthContext';
 import { ThemeToggle } from '../components/ThemeToggle/ThemeToggle';
+import { useAuth } from '../../modules/auth/useAuth';
 
 export const Header = () => {
   const navigate = useNavigate();

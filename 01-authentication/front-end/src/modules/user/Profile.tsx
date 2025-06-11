@@ -10,10 +10,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Edit as EditIcon, PhotoCamera } from '@mui/icons-material';
 import { Lock as LockIcon } from '@mui/icons-material';
 import { useMutation } from '@tanstack/react-query';
-import { useSnackbar } from '../../shared/components/Snackbar/SnackbarContext';
 import { useEffect } from 'react';
 import { useAuth } from '../auth/useAuth';
 import dayjs from 'dayjs';
+import { useSnackbar } from '../../shared/components/Snackbar/useSnackbar';
 
 // Mock user data
 const mockUser = {

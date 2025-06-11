@@ -15,9 +15,9 @@ import {
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useState, useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { useSnackbar } from '../../shared/components/Snackbar/SnackbarContext';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../auth/useAuth';
+import { useSnackbar } from '../../shared/components/Snackbar/useSnackbar';
 
 export default function ChangePassword() {
   const navigate = useNavigate();
