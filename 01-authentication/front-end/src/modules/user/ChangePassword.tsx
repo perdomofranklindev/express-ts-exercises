@@ -83,6 +83,13 @@ export default function ChangePassword() {
           Please enter your current password and your new password
         </Typography>
         <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1 }}>
+          <input
+            type="text"
+            name="username"
+            autoComplete="username"
+            style={{ display: 'none' }}
+            aria-hidden="true"
+          />
           <TextField
             margin="normal"
             fullWidth
