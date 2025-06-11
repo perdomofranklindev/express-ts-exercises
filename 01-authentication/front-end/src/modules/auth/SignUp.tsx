@@ -13,11 +13,11 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signUpSchema, type SignUpFormData } from './schemas/signup-schema';
 import { useMutation } from '@tanstack/react-query';
-import { useSnackbar } from '../../shared/components/Snackbar/SnackbarContext';
 import { useEffect, useState } from 'react';
 import { useAuth } from './useAuth';
+import { useSnackbar } from '../../shared/components/Snackbar/useSnackbar';
 
-export function SignUp() {
+export default function SignUp() {
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbar();
   const { signUp } = useAuth();

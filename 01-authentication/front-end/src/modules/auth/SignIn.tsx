@@ -9,11 +9,11 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signInSchema, type SignInFormData } from './schemas/auth-schema';
 import { useMutation } from '@tanstack/react-query';
-import { useSnackbar } from '../../shared/components/Snackbar/SnackbarContext';
 import { useEffect } from 'react';
 import { useAuth } from './useAuth';
+import { useSnackbar } from '../../shared/components/Snackbar/useSnackbar';
 
-export function SignIn() {
+export default function SignIn() {
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbar();
   const { signIn } = useAuth();
