@@ -39,6 +39,19 @@ cp .env.example .env  # if you have an example file
 # or create it manually
 ```
 
+3. Set up the database:
+
+```bash
+# Generate Prisma Client
+npx prisma generate
+
+# Create and apply database migrations
+npx prisma migrate dev
+
+# (Optional) If you need to reset the database
+npx prisma migrate reset
+```
+
 ## 🚀 Usage
 
 ### Development
