@@ -15,9 +15,8 @@ export class AuthController {
     const validatedSchema = await AuthUtils.validateUserSignUp(user);
 
     if (validatedSchema?.errors?.length) {
-      validatedSchema.errors.forEach(issue => {
-        response.status(400).json({ message: issue.message });
-      });
+      response.status(400).json({ message: validatedSchema.errors[0].message });
+      return;
     }
 
     const { firstName, lastName, email, password } = user;
@@ -30,6 +29,7 @@ export class AuthController {
       response.status(400).json({
         message: 'User already exists',
       });
+      return;
     }
 
     const [newUser, createUserError] = await AuthUtils.createUser({
@@ -41,6 +41,7 @@ export class AuthController {
 
     if (createUserError) {
       response.status(400).json({ message: 'Unexpected error' });
+      return;
     }
 
     response.status(201).json({
@@ -57,9 +58,8 @@ export class AuthController {
     const validatedSchema = await AuthUtils.validateUserSignIn(user);
 
     if (validatedSchema?.errors?.length) {
-      validatedSchema.errors.forEach(issue => {
-        response.status(400).json({ message: issue.message });
-      });
+      response.status(400).json({ message: validatedSchema.errors[0].message });
+      return;
     }
 
     const { email, password } = user;
@@ -70,25 +70,23 @@ export class AuthController {
       response.status(400).json({
         message: 'User not found',
       });
+      return;
     }
 
     // Password validation.
-
     const isValidPassword = AuthUtils.isValidPassword({
       currentPassword: String(foundUser?.password),
       incomingPassword: password,
     });
 
-    const notValidPassword = !isValidPassword;
-
-    if (notValidPassword) {
+    if (!isValidPassword) {
       response.status(401).json({
         message: 'Invalid password',
       });
+      return;
     }
 
     // Generate tokens.
-
     const [accessToken, refreshToken] = AuthUtils.generateTokens(foundUser as User);
 
     response.cookie('access_token', accessToken, {
@@ -105,7 +103,10 @@ export class AuthController {
     });
 
     response.status(200).json({
-      ...foundUser,
+      id: foundUser.id,
+      firstName: foundUser.firstName,
+      lastName: foundUser.lastName,
+      email: foundUser.email,
     });
   }
 
