@@ -66,18 +66,20 @@ export class AuthUtils {
     return response;
   }
 
-  static async findUser({ email }: FindUserParams): Promise<User | null> {
+  static async findUser({ email }: FindUserParams): Promise<[User | null, Error | null]> {
     if (!email) {
       throw new Error('Email must be provided.');
     }
 
-    const user = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-    });
+    const [user, error] = await handleTryCatch(
+      prisma.user.findUnique({
+        where: {
+          email,
+        },
+      })
+    );
 
-    return user;
+    return [user, error];
   }
 
   static isValidPassword({ currentPassword, incomingPassword }: ValidatePasswordParams): boolean {
