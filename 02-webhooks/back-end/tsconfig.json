@@ -13,9 +13,10 @@
     "paths": {
       "@lib/*": ["lib/*"],
       "@shared/*": ["src/shared/*"],
-      "@modules/*": ["src/modules/*"]
+      "@modules/*": ["src/modules/*"],
+      "@prisma-generated-types": ["prisma/generated/types/index"]
     }
   },
-  "include": ["src/**/*", "lib/*", "src/shared/config/env.config.ts"],
+  "include": ["src/**/*", "lib/*", "src/shared/**/*", "prisma/generated/*"],
   "exclude": ["node_modules", "dist"]
 }
