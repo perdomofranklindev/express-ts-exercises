@@ -1,24 +1,24 @@
-{
-  "env": {
-    "node": true,
-    "es2022": true,
-    "jest": true
+module.exports = {
+  env: {
+    node: true,
+    es2022: true,
+    jest: true
   },
-  "extends": [
+  extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:prettier/recommended"
   ],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaVersion": "latest",
-    "sourceType": "module",
-    "project": ["./tsconfig.json", "./tsconfig.test.json"],
-    "tsconfigRootDir": "."
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    ecmaVersion: "latest",
+    sourceType: "module",
+    project: "./tsconfig.json",
+    tsconfigRootDir: __dirname
   },
-  "plugins": ["@typescript-eslint", "prettier"],
-  "rules": {
+  plugins: ["@typescript-eslint", "prettier"],
+  rules: {
     "prettier/prettier": "error",
     "@typescript-eslint/explicit-function-return-type": "warn",
     "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
@@ -57,11 +57,11 @@
       }
     ]
   },
-  "settings": {
+  settings: {
     "import/resolver": {
       "typescript": {
         "alwaysTryTypes": true
       }
     }
   }
-}
+}; 
