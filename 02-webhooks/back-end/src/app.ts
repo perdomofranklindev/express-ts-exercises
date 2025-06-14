@@ -1,10 +1,8 @@
 import express, { Application, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import helmet from 'helmet';
-
-// Load environment variables
-dotenv.config();
+import { envConfig } from '@shared/config/env.config';
+import { authRouter } from '@modules/auth/auth.routes';
 
 // Create Express application
 const app: Application = express();
@@ -13,7 +11,14 @@ const app: Application = express();
 app.use(helmet());
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: envConfig.corsOrigins,
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -23,27 +28,11 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-// Basic route
+// Routes
 app.get('/', (_req: Request, res: Response) => {
   res.json({ message: 'Express + TypeScript Server' });
 });
-
-// Test routes
-app.get('/api/test', (_req: Request, res: Response) => {
-  res.json({ message: 'Test endpoint working!' });
-});
-
-interface GreetRequest {
-  name: string;
-}
-
-app.post('/api/greet', (req: Request<unknown, unknown, GreetRequest>, res: Response) => {
-  const { name } = req.body;
-  if (!name) {
-    return res.status(400).json({ error: 'Name is required' });
-  }
-  return res.json({ message: `Hello, ${name}!` });
-});
+app.use('/api/auth', authRouter);
 
 // 404 handler
 app.use((_req: Request, res: Response) => {
