@@ -36,8 +36,16 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 // Routes
+app.get('/', (_req: Request, res: Response) => {
+  res.json({ message: 'Express + TypeScript Server' });
+});
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
+
+// 404 handler
+app.use((_req: Request, res: Response) => {
+  res.status(404).json({ error: 'Not found' });
+});
 
 // Error handler
 interface ErrorResponse extends Error {
