@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import { ENV } from '../../shared/constants';
 import { User } from '@prisma/client';
-import { AuthErrorCode, AuthErrorResponse } from './auth-constants';
+import { AuthErrorCode, AuthErrorResponse } from './auth.types';
 import jwt from 'jsonwebtoken';
+import { envConfig } from '@shared/config/env.config';
 
 export const authenticateToken = (
   request: Request,
@@ -19,7 +19,7 @@ export const authenticateToken = (
 
     try {
       // Verify the access token
-      const decoded = jwt.verify(accessToken, ENV.JWT_SECRET) as User;
+      const decoded = jwt.verify(accessToken, envConfig.jwtSecret) as User;
 
       // Attach user to request object
       request.user = {

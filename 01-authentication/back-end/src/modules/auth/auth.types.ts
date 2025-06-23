@@ -1,3 +1,24 @@
+export interface FindUserParams {
+  email?: string;
+  id?: string;
+}
+
+export interface CheckUserExistsParams {
+  email: string;
+}
+
+export interface CreateUserParams {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
+
+export interface ValidatePasswordParams {
+  currentPassword: string;
+  incomingPassword: string;
+}
+
 export enum AuthErrorCode {
   ACCESS_TOKEN_MISSING = 'ACCESS_TOKEN_MISSING',
   ACCESS_TOKEN_EXPIRED = 'ACCESS_TOKEN_EXPIRED',

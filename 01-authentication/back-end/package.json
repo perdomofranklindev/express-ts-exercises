@@ -6,11 +6,16 @@
   "engines": {
     "node": ">=20.0.0"
   },
+  "_moduleAliases": {
+    "@shared": "dist/src/shared",
+    "@modules": "dist/src/modules",
+    "@prisma/generated/client": "prisma/generated/client"
+  },
   "scripts": {
-    "start": "node dist/index.js",
+    "start": "node -r module-alias/register dist/src/index.js",
     "dev": "concurrently \"npm run dev:build\" \"npm run dev:watch\"",
     "dev:build": "tsc -w",
-    "dev:watch": "nodemon --watch src --ext ts --exec \"ts-node\" src/index.ts",
+    "dev:watch": "nodemon --watch src --ext ts --exec \"ts-node -r module-alias/register\" src/index.ts",
     "build": "tsc",
     "clean": "rimraf dist",
     "clean:install": "rm -rf node_modules package-lock.json && npm cache clean --force && npm cache verify && npm i",
@@ -36,9 +41,11 @@
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
+    "envalid": "^8.0.0",
     "express": "^4.18.2",
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
+    "module-alias": "^2.2.3",
     "zod": "^3.25.28"
   },
   "devDependencies": {

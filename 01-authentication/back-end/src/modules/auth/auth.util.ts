@@ -1,21 +1,21 @@
-import { User } from '@prisma/client';
 import { ZodError } from 'zod';
-import { handleTryCatch } from '../../shared/utils/try-catch';
-import { SignInSchema, SignUpSchema } from './auth-schemas';
-import { prisma } from '../../shared/prisma';
-import { ENV } from '../../shared/constants';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import { User } from '@prisma/generated/client';
+import { SignInSchema, SignUpSchema } from './auth.schemas';
+import { handleTryCatch } from '@shared/utils/try-catch-utils';
 import {
   CheckUserExistsParams,
   CreateUserParams,
   FindUserParams,
   ValidatePasswordParams,
-} from './auth-types';
+} from './auth.types';
+import { prisma } from '@shared/prisma';
+import { envConfig } from '@shared/config/env.config';
 import {
   ACCESS_TOKEN_EXPIRES_IN,
   REFRESH_TOKEN_EXPIRES_IN,
-} from '../auth-session/auth-session-constants';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
+} from '@modules/auth-session/auth-session.config';
 
 export class AuthUtils {
   static async validateUserSignUp(user: User): Promise<ZodError | null> {
@@ -50,7 +50,7 @@ export class AuthUtils {
     email,
     password,
   }: CreateUserParams): Promise<[User | null, Error | null]> {
-    const hashedPassword = await bcrypt.hash(password, ENV.SALT_ROUNDS);
+    const hashedPassword = await bcrypt.hash(password, envConfig.saltRounds);
 
     const response = await handleTryCatch(
       prisma.user.create({
@@ -87,13 +87,13 @@ export class AuthUtils {
   }
 
   static generateAccessToken(payload: User): string {
-    return jwt.sign({ ...payload }, ENV.JWT_SECRET, {
+    return jwt.sign({ ...payload }, envConfig.jwtSecret, {
       expiresIn: ACCESS_TOKEN_EXPIRES_IN,
     });
   }
 
   static generateRefreshToken(user: User): string {
-    return jwt.sign({ ...user }, ENV.REFRESH_SECRET, {
+    return jwt.sign({ ...user }, envConfig.refreshSecret, {
       expiresIn: REFRESH_TOKEN_EXPIRES_IN,
     });
   }
@@ -107,7 +107,7 @@ export class AuthUtils {
 
   static verifyRefreshToken(token: string): { id: string } {
     try {
-      const decoded = jwt.verify(token, ENV.REFRESH_SECRET) as { id: string };
+      const decoded = jwt.verify(token, envConfig.refreshSecret) as { id: string };
       return decoded;
     } catch (error) {
       if (error instanceof jwt.TokenExpiredError) {
@@ -127,7 +127,7 @@ export class AuthUtils {
 
   static verifyAccessToken(token: string): { id: string } {
     try {
-      const decoded = jwt.verify(token, ENV.JWT_SECRET) as { id: string };
+      const decoded = jwt.verify(token, envConfig.jwtSecret) as { id: string };
       return decoded;
     } catch (error) {
       if (error instanceof jwt.TokenExpiredError) {

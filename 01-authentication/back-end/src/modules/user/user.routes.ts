@@ -1,7 +1,7 @@
+import { authenticateToken } from '@modules/auth/auth.middleware';
 import express, { Response, Router } from 'express';
-import { authenticateToken } from '../auth/auth-middleware';
-import { AuthenticatedRequest } from '../../types/express';
-import { UserController } from './user-controller';
+import { AuthenticatedRequest } from 'src/types/express';
+import { UserController } from './user.controller';
 
 const router: Router = express.Router();
 
@@ -17,4 +17,4 @@ router.get('/profile', authenticateToken, (req: AuthenticatedRequest, res: Respo
 // Change password endpoint
 router.post('/change-password', authenticateToken, UserController.changePassword);
 
-export default router;
+export { router as userRouter };

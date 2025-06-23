@@ -1,7 +1,7 @@
+import { AuthUtils } from '@modules/auth/auth.util';
 import { Response } from 'express';
-import { AuthUtils } from '../auth/auth-utils';
-import { UserUtils } from './user-utils';
-import { AuthenticatedRequest } from '../../types/express';
+import { AuthenticatedRequest } from 'src/types/express';
+import { UserUtils } from './user.util';
 
 export class UserController {
   public static async changePassword(

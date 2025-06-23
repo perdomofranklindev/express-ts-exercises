@@ -1,14 +1,10 @@
 import express, { Application, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
-import authRoutes from './modules/auth/auth-routes';
-import userRoutes from './modules/user/user-routes';
-import { ENV } from './shared/constants';
-
-// Load environment variables
-dotenv.config();
+import { envConfig } from '@shared/config/env.config';
+import { authRouter } from '@modules/auth/auth.routes';
+import { userRouter } from '@modules/user/user.routes';
 
 // Create Express application
 const app: Application = express();
@@ -19,7 +15,7 @@ app.use(helmet());
 // Middleware
 app.use(
   cors({
-    origin: ENV.CORS_ORIGINS,
+    origin: envConfig.corsOrigins,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -40,8 +36,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.get('/', (_req: Request, res: Response) => {
   res.json({ message: 'Express + TypeScript Server' });
 });
-app.use('/api/auth', authRoutes);
-app.use('/api/user', userRoutes);
+
+app.use('/api/auth', authRouter);
+app.use('/api/user', userRouter);
 
 // 404 handler
 app.use((_req: Request, res: Response) => {

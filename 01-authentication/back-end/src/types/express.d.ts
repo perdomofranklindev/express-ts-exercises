@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { User } from '@prisma/client';
+import { User } from '@prisma/generated/client';
 
 declare global {
   namespace Express {

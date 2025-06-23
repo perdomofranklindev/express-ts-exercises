@@ -1,7 +1,7 @@
-import { User } from '@prisma/client';
-import { handleTryCatch } from '../../shared/utils/try-catch';
-import { prisma } from '../../shared/prisma';
-import { ENV } from '../../shared/constants';
+import { User } from '@prisma/generated/client';
+import { envConfig } from '@shared/config/env.config';
+import { prisma } from '@shared/prisma';
+import { handleTryCatch } from '@shared/utils/try-catch-utils';
 import bcrypt from 'bcrypt';
 
 export class UserUtils {
@@ -9,7 +9,7 @@ export class UserUtils {
     userId: string,
     newPassword: string
   ): Promise<[User | null, Error | null]> {
-    const hashedPassword = await bcrypt.hash(newPassword, ENV.SALT_ROUNDS);
+    const hashedPassword = await bcrypt.hash(newPassword, envConfig.saltRounds);
 
     const response = await handleTryCatch(
       prisma.user.update({
@@ -20,4 +20,4 @@ export class UserUtils {
 
     return response;
   }
-} 
+}

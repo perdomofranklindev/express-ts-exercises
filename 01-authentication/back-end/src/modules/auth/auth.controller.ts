@@ -1,12 +1,12 @@
 import { User } from '@prisma/client';
 import { Request, Response } from 'express';
-import { AuthUtils } from './auth-utils';
-import { ENV } from '../../shared/constants';
 import {
   COOKIE_ACCESS_TOKEN_MAX_AGE,
   COOKIE_REFRESH_TOKEN_MAX_AGE,
-} from '../auth-session/auth-session-constants';
-import { AuthErrorCode, AuthErrorResponse } from './auth-constants';
+} from '../auth-session/auth-session.config';
+import { AuthErrorCode, AuthErrorResponse } from './auth.types';
+import { AuthUtils } from './auth.util';
+import { envConfig } from '@shared/config/env.config';
 
 export class AuthController {
   public static async signUp(request: Request, response: Response): Promise<void> {
@@ -91,13 +91,13 @@ export class AuthController {
 
     response.cookie('access_token', accessToken, {
       httpOnly: true,
-      secure: ENV.NODE_ENV === 'production',
+      secure: envConfig.environment === 'production',
       sameSite: 'strict',
       maxAge: COOKIE_ACCESS_TOKEN_MAX_AGE,
     });
     response.cookie('refresh_token', refreshToken, {
       httpOnly: true,
-      secure: ENV.NODE_ENV === 'production',
+      secure: envConfig.environment === 'production',
       sameSite: 'strict',
       maxAge: COOKIE_REFRESH_TOKEN_MAX_AGE,
     });
@@ -114,12 +114,12 @@ export class AuthController {
     // Clear both access and refresh token cookies
     response.clearCookie('access_token', {
       httpOnly: true,
-      secure: ENV.NODE_ENV === 'production',
+      secure: envConfig.environment === 'production',
       sameSite: 'strict',
     });
     response.clearCookie('refresh_token', {
       httpOnly: true,
-      secure: ENV.NODE_ENV === 'production',
+      secure: envConfig.environment === 'production',
       sameSite: 'strict',
     });
 
@@ -152,13 +152,13 @@ export class AuthController {
       // Set new cookies
       response.cookie('access_token', newAccessToken, {
         httpOnly: true,
-        secure: ENV.NODE_ENV === 'production',
+        secure: envConfig.environment === 'production',
         sameSite: 'strict',
         maxAge: COOKIE_ACCESS_TOKEN_MAX_AGE,
       });
       response.cookie('refresh_token', newRefreshToken, {
         httpOnly: true,
-        secure: ENV.NODE_ENV === 'production',
+        secure: envConfig.environment === 'production',
         sameSite: 'strict',
         maxAge: COOKIE_REFRESH_TOKEN_MAX_AGE,
       });
@@ -169,12 +169,12 @@ export class AuthController {
       if (error instanceof Error && error.message.includes('expired')) {
         response.clearCookie('access_token', {
           httpOnly: true,
-          secure: ENV.NODE_ENV === 'production',
+          secure: envConfig.environment === 'production',
           sameSite: 'strict',
         });
         response.clearCookie('refresh_token', {
           httpOnly: true,
-          secure: ENV.NODE_ENV === 'production',
+          secure: envConfig.environment === 'production',
           sameSite: 'strict',
         });
         response.status(401).json(AuthErrorResponse[AuthErrorCode.REFRESH_TOKEN_EXPIRED]);

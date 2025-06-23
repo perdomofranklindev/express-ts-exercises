@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import { AuthController } from './auth-controller';
+import { AuthController } from './auth.controller';
 
 const router: Router = express.Router();
 
@@ -9,4 +9,4 @@ router.post('/sign-out', AuthController.SignOut);
 router.post('/refresh-token', AuthController.refreshToken);
 router.get('/check-token', AuthController.checkToken);
 
-export default router;
+export { router as authRouter };
