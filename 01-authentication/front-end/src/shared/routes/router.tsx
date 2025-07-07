@@ -9,7 +9,7 @@ import { AppLoader } from '../components/loaders/AppLoader';
 import { ModuleLoader } from '../components/loaders/ModuleLoader';
 
 const DashboardLayout = lazy(() => import('../../shared/layouts/DashboardLayout'));
-const HomePage = lazy(() => import('../../modules/home/HomePage'));
+const HomePage = lazy(() => import('../../modules/home/pages/HomePage'));
 const ProfilePage = lazy(() => import('../../modules/user/pages/ProfilePage'));
 const ChangePasswordPage = lazy(() => import('../../modules/user/pages/ChangePasswordPage'));
 
