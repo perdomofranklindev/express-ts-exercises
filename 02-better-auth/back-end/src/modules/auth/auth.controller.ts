@@ -4,6 +4,7 @@ import { Request, Response } from 'express';
 import { SignInBody, SignUpBody } from './auth.types';
 import { auth } from '@auth';
 import { fromNodeHeaders } from 'better-auth/node';
+import { AuthUtils } from './auth.utils';
 
 export class AuthController {
   static async signUp(
@@ -12,7 +13,29 @@ export class AuthController {
   ): Promise<Response> {
     const { email, password, firstName, lastName, username } = req.body;
 
-    const generatedUsername = username ? username : email.split('@')[0];
+    const generatedUsername = AuthUtils.generateUsername(email, username || undefined);
+
+    // Check if user already exists
+    const [existingUser, existingUserError] = await AuthUtils.checkUserExists(email);
+
+    if (existingUserError) {
+      console.error('Error checking existing user:', existingUserError);
+      return res
+        .status(500)
+        .json(
+          new ApiResponse(
+            500,
+            null,
+            'An internal server error occurred while checking user existence'
+          )
+        );
+    }
+
+    if (existingUser) {
+      return res
+        .status(409)
+        .json(new ApiResponse(409, null, 'User with this email already exists'));
+    }
 
     const [user, error] = await handleTryCatch(
       auth.api.signUpEmail({
@@ -29,9 +52,7 @@ export class AuthController {
     );
 
     if (error) {
-      return res
-        .status(400)
-        .json(new ApiResponse(400, null, error.message || 'Registration failed'));
+      return res.status(400).json(new ApiResponse(400, null, 'Registration failed'));
     }
 
     if (!user) {
@@ -56,13 +77,7 @@ export class AuthController {
       console.error('Unexpected error during sign-in:', error);
       return res
         .status(500)
-        .json(
-          new ApiResponse(
-            500,
-            null,
-            error.message || 'An internal server error occurred during sign-in.'
-          )
-        );
+        .json(new ApiResponse(500, null, 'An internal server error occurred during sign-in.'));
     }
 
     if (!result?.ok) {
@@ -118,13 +133,7 @@ export class AuthController {
     if (error) {
       return res
         .status(500)
-        .json(
-          new ApiResponse(
-            500,
-            null,
-            error.message || 'An internal server error occurred during sign out.'
-          )
-        );
+        .json(new ApiResponse(500, null, 'An internal server error occurred during sign out.'));
     }
 
     if (!result?.success) {
