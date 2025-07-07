@@ -8,16 +8,16 @@ import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Link, useNavigate } from 'react-router-dom';
-import { FormWrapper } from '../../shared/components/FormWrapper';
+import { FormWrapper } from '../../../shared/components/FormWrapper';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signUpSchema, type SignUpFormData } from './schemas/signup-schema';
+import { signUpSchema, type SignUpFormData } from '../schemas/signup-schema';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import { useAuth } from './useAuth';
-import { useSnackbar } from '../../shared/components/Snackbar/useSnackbar';
+import { useAuth } from '../useAuth';
+import { useSnackbar } from '../../../shared/components/Snackbar/useSnackbar';
 
-export default function SignUp() {
+export default function SignUpPage() {
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbar();
   const { signUp } = useAuth();

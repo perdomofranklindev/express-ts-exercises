@@ -4,16 +4,16 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { Link, useNavigate } from 'react-router-dom';
-import { FormWrapper } from '../../shared/components/FormWrapper';
+import { FormWrapper } from '../../../shared/components/FormWrapper';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signInSchema, type SignInFormData } from './schemas/auth-schema';
+import { signInSchema, type SignInFormData } from '../schemas/auth-schema';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import { useAuth } from './useAuth';
-import { useSnackbar } from '../../shared/components/Snackbar/useSnackbar';
+import { useAuth } from '../useAuth';
+import { useSnackbar } from '../../../shared/components/Snackbar/useSnackbar';
 
-export default function SignIn() {
+export default function SignInPage() {
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbar();
   const { signIn } = useAuth();

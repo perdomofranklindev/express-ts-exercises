@@ -11,9 +11,9 @@ import { Edit as EditIcon, PhotoCamera } from '@mui/icons-material';
 import { Lock as LockIcon } from '@mui/icons-material';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import { useAuth } from '../auth/useAuth';
+import { useAuth } from '../../auth/useAuth';
 import dayjs from 'dayjs';
-import { useSnackbar } from '../../shared/components/Snackbar/useSnackbar';
+import { useSnackbar } from '../../../shared/components/Snackbar/useSnackbar';
 
 // Mock user data
 const mockUser = {
@@ -27,7 +27,7 @@ const mockUser = {
   createdAt: '2023-01-15T10:30:00Z', // ISO date string
 };
 
-export default function Profile() {
+export default function ProfilePage() {
   const navigate = useNavigate();
 
   const { showSnackbar } = useSnackbar();

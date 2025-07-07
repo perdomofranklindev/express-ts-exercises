@@ -22,6 +22,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
+        <CssBaseline enableColorScheme />
         <SnackbarProvider>
           <Box
             sx={{
@@ -31,7 +32,6 @@ function App() {
               bgcolor: 'background.default',
             }}
           >
-            <CssBaseline enableColorScheme />
             <AuthProvider>
               <RouterProvider router={router} />
             </AuthProvider>

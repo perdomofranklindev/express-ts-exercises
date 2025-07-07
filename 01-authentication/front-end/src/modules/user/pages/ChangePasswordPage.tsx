@@ -11,15 +11,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import {
   changePasswordSchema,
   type ChangePasswordFormData,
-} from './schemas/change-password.schema';
+} from '../schemas/change-password.schema';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useState, useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../auth/useAuth';
-import { useSnackbar } from '../../shared/components/Snackbar/useSnackbar';
+import { useAuth } from '../../auth/useAuth';
+import { useSnackbar } from '../../../shared/components/Snackbar/useSnackbar';
 
-export default function ChangePassword() {
+export default function ChangePasswordPage() {
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbar();
   const { changePassword } = useAuth();

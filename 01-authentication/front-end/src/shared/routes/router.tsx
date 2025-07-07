@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
-import SignIn from '../../modules/auth/SignIn';
-import SignUp from '../../modules/auth/SignUp';
+import SignInPage from '../../modules/auth/pages/SignInPage';
+import SignUpPage from '../../modules/auth/pages/SignUpPage';
 import { PublicRoute } from './PublicRoute';
 import { ProtectedRoute } from './ProtectedRoute';
 import { Outlet } from 'react-router-dom';
@@ -9,9 +9,9 @@ import { AppLoader } from '../components/loaders/AppLoader';
 import { ModuleLoader } from '../components/loaders/ModuleLoader';
 
 const DashboardLayout = lazy(() => import('../../shared/layouts/DashboardLayout'));
-const Home = lazy(() => import('../../modules/home/Home'));
-const Profile = lazy(() => import('../../modules/user/Profile'));
-const ChangePassword = lazy(() => import('../../modules/user/ChangePassword'));
+const HomePage = lazy(() => import('../../modules/home/HomePage'));
+const ProfilePage = lazy(() => import('../../modules/user/pages/ProfilePage'));
+const ChangePasswordPage = lazy(() => import('../../modules/user/pages/ChangePasswordPage'));
 
 export const router = createBrowserRouter([
   {
@@ -26,11 +26,11 @@ export const router = createBrowserRouter([
     children: [
       {
         path: 'sign-in',
-        element: <SignIn />,
+        element: <SignInPage />,
       },
       {
         path: 'sign-up',
-        element: <SignUp />,
+        element: <SignUpPage />,
       },
     ],
   },
@@ -50,18 +50,18 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />,
+        element: <HomePage />,
       },
       {
         path: 'user',
         children: [
           {
             path: 'profile',
-            element: <Profile />,
+            element: <ProfilePage />,
           },
           {
             path: 'change-password',
-            element: <ChangePassword />,
+            element: <ChangePasswordPage />,
           },
         ],
       },

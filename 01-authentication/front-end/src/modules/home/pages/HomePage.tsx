@@ -6,7 +6,7 @@ import { SessionInfo } from './components/SessionInfo';
 import { QuickActions } from './components/QuickActions';
 import { RecentActivity } from './components/RecentActivity';
 
-export default function Home() {
+export default function HomePage() {
   return (
     <Box>
       <WelcomeSection />
