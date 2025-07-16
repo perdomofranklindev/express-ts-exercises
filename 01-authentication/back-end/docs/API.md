@@ -35,6 +35,8 @@ The API uses JWT (JSON Web Tokens) for authentication. Tokens are stored in HTTP
 - `access_token`: Short-lived token for regular API access
 - `refresh_token`: Long-lived token for obtaining new access tokens
 
+> **Note:** Cookie names and lifetimes, as well as JWT expiration, are now managed in code via the `envConfig.auth` object and are configurable via environment variables. See the main README for details.
+
 ## Error Codes
 
 The API uses standardized error codes for different types of errors:
