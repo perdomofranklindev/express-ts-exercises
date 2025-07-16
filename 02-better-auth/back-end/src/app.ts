@@ -3,7 +3,9 @@ import cors from 'cors';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import { authRouter } from '@modules/auth/auth.routes';
+import { userRouter } from '@modules/user/user.routes';
 import { envConfig } from '@shared/config/env.config';
+import { authMiddleware } from '@modules/auth/auth.middleware';
 
 // Create Express application
 const app: Application = express();
@@ -37,6 +39,8 @@ app.get('/', (_req: Request, res: Response) => {
 });
 
 app.use('/api/auth', authRouter);
+app.use(authMiddleware); // <- From here the endpoints below are protected.
+app.use('/api/user', userRouter);
 
 // 404 handler
 app.use((_req: Request, res: Response) => {
