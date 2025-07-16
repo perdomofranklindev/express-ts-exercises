@@ -1,14 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
 import { User } from '@prisma/client';
 import { AuthErrorCode, AuthErrorResponse } from './auth.types';
-import jwt from 'jsonwebtoken';
 import { envConfig } from '@shared/config/env.config';
+import jwt from 'jsonwebtoken';
 
-export const authenticateToken = (
-  request: Request,
-  response: Response,
-  next: NextFunction
-): void => {
+export const authMiddleware = (request: Request, response: Response, next: NextFunction): void => {
   try {
     const accessToken = request.cookies.access_token;
 
@@ -19,7 +15,7 @@ export const authenticateToken = (
 
     try {
       // Verify the access token
-      const decoded = jwt.verify(accessToken, envConfig.jwtSecret) as User;
+      const decoded = jwt.verify(accessToken, envConfig.auth.jwt.secret) as User;
 
       // Attach user to request object
       request.user = {

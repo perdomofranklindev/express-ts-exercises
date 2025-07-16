@@ -1,9 +1,5 @@
 import { User } from '@prisma/client';
 import { Request, Response } from 'express';
-import {
-  COOKIE_ACCESS_TOKEN_MAX_AGE,
-  COOKIE_REFRESH_TOKEN_MAX_AGE,
-} from '../auth-session/auth-session.config';
 import { AuthErrorCode, AuthErrorResponse } from './auth.types';
 import { AuthUtils } from './auth.util';
 import { envConfig } from '@shared/config/env.config';
@@ -89,17 +85,17 @@ export class AuthController {
     // Generate tokens.
     const [accessToken, refreshToken] = AuthUtils.generateTokens(foundUser as User);
 
-    response.cookie('access_token', accessToken, {
+    response.cookie(envConfig.auth.cookies.accessToken.name, accessToken, {
       httpOnly: true,
       secure: envConfig.environment === 'production',
       sameSite: 'strict',
-      maxAge: COOKIE_ACCESS_TOKEN_MAX_AGE,
+      maxAge: envConfig.auth.cookies.accessToken.maxAge,
     });
-    response.cookie('refresh_token', refreshToken, {
+    response.cookie(envConfig.auth.cookies.refreshToken.name, refreshToken, {
       httpOnly: true,
       secure: envConfig.environment === 'production',
       sameSite: 'strict',
-      maxAge: COOKIE_REFRESH_TOKEN_MAX_AGE,
+      maxAge: envConfig.auth.cookies.refreshToken.maxAge,
     });
 
     response.status(200).json({
@@ -112,12 +108,12 @@ export class AuthController {
 
   public static SignOut(request: Request, response: Response): void {
     // Clear both access and refresh token cookies
-    response.clearCookie('access_token', {
+    response.clearCookie(envConfig.auth.cookies.accessToken.name, {
       httpOnly: true,
       secure: envConfig.environment === 'production',
       sameSite: 'strict',
     });
-    response.clearCookie('refresh_token', {
+    response.clearCookie(envConfig.auth.cookies.refreshToken.name, {
       httpOnly: true,
       secure: envConfig.environment === 'production',
       sameSite: 'strict',
@@ -150,29 +146,29 @@ export class AuthController {
       const [newAccessToken, newRefreshToken] = AuthUtils.generateTokens(user);
 
       // Set new cookies
-      response.cookie('access_token', newAccessToken, {
+      response.cookie(envConfig.auth.cookies.accessToken.name, newAccessToken, {
         httpOnly: true,
         secure: envConfig.environment === 'production',
         sameSite: 'strict',
-        maxAge: COOKIE_ACCESS_TOKEN_MAX_AGE,
+        maxAge: envConfig.auth.cookies.accessToken.maxAge,
       });
-      response.cookie('refresh_token', newRefreshToken, {
+      response.cookie(envConfig.auth.cookies.refreshToken.name, newRefreshToken, {
         httpOnly: true,
         secure: envConfig.environment === 'production',
         sameSite: 'strict',
-        maxAge: COOKIE_REFRESH_TOKEN_MAX_AGE,
+        maxAge: envConfig.auth.cookies.refreshToken.maxAge,
       });
 
       response.status(200).json({ message: 'Tokens refreshed successfully' });
     } catch (error) {
       // Clear cookies if the refresh token is expired
       if (error instanceof Error && error.message.includes('expired')) {
-        response.clearCookie('access_token', {
+        response.clearCookie(envConfig.auth.cookies.accessToken.name, {
           httpOnly: true,
           secure: envConfig.environment === 'production',
           sameSite: 'strict',
         });
-        response.clearCookie('refresh_token', {
+        response.clearCookie(envConfig.auth.cookies.refreshToken.name, {
           httpOnly: true,
           secure: envConfig.environment === 'production',
           sameSite: 'strict',

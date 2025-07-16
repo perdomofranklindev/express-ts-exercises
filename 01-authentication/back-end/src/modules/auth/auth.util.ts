@@ -12,10 +12,6 @@ import {
 } from './auth.types';
 import { prisma } from '@shared/prisma';
 import { envConfig } from '@shared/config/env.config';
-import {
-  ACCESS_TOKEN_EXPIRES_IN,
-  REFRESH_TOKEN_EXPIRES_IN,
-} from '@modules/auth-session/auth-session.config';
 
 export class AuthUtils {
   static async validateUserSignUp(user: User): Promise<ZodError | null> {
@@ -50,7 +46,7 @@ export class AuthUtils {
     email,
     password,
   }: CreateUserParams): Promise<[User | null, Error | null]> {
-    const hashedPassword = await bcrypt.hash(password, envConfig.saltRounds);
+    const hashedPassword = await bcrypt.hash(password, envConfig.auth.userPasswordEncryptionRounds);
 
     const response = await handleTryCatch(
       prisma.user.create({
@@ -87,14 +83,14 @@ export class AuthUtils {
   }
 
   static generateAccessToken(payload: User): string {
-    return jwt.sign({ ...payload }, envConfig.jwtSecret, {
-      expiresIn: ACCESS_TOKEN_EXPIRES_IN,
+    return jwt.sign({ ...payload }, envConfig.auth.jwt.secret, {
+      expiresIn: envConfig.auth.jwt.accessTokenExpiresIn,
     });
   }
 
   static generateRefreshToken(user: User): string {
-    return jwt.sign({ ...user }, envConfig.refreshSecret, {
-      expiresIn: REFRESH_TOKEN_EXPIRES_IN,
+    return jwt.sign({ ...user }, envConfig.auth.jwt.refreshSecret, {
+      expiresIn: envConfig.auth.jwt.refreshTokenExpiresIn,
     });
   }
 
@@ -107,7 +103,7 @@ export class AuthUtils {
 
   static verifyRefreshToken(token: string): { id: string } {
     try {
-      const decoded = jwt.verify(token, envConfig.refreshSecret) as { id: string };
+      const decoded = jwt.verify(token, envConfig.auth.jwt.refreshSecret) as { id: string };
       return decoded;
     } catch (error) {
       if (error instanceof jwt.TokenExpiredError) {
@@ -127,7 +123,7 @@ export class AuthUtils {
 
   static verifyAccessToken(token: string): { id: string } {
     try {
-      const decoded = jwt.verify(token, envConfig.jwtSecret) as { id: string };
+      const decoded = jwt.verify(token, envConfig.auth.jwt.secret) as { id: string };
       return decoded;
     } catch (error) {
       if (error instanceof jwt.TokenExpiredError) {

@@ -9,7 +9,10 @@ export class UserUtils {
     userId: string,
     newPassword: string
   ): Promise<[User | null, Error | null]> {
-    const hashedPassword = await bcrypt.hash(newPassword, envConfig.saltRounds);
+    const hashedPassword = await bcrypt.hash(
+      newPassword,
+      envConfig.auth.userPasswordEncryptionRounds
+    );
 
     const response = await handleTryCatch(
       prisma.user.update({
