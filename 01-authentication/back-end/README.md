@@ -131,29 +131,38 @@ The project uses two types of cookies for authentication:
    - Default lifetime: 1 hour
    - Used for regular API access
    - Automatically refreshed when valid
+   - **Cookie name:** configurable via `envConfig.auth.cookies.accessToken.name` (default: `access_token`)
 
 2. **Refresh Token Cookie**
-   - Default lifetime: 7 days
+   - Default lifetime: 1 day (configurable)
    - Used to obtain new access tokens
    - Provides long-term authentication
+   - **Cookie name:** configurable via `envConfig.auth.cookies.refreshToken.name` (default: `refresh_token`)
 
-### Configuring Cookie Lifetimes
+### Configuring Cookie Lifetimes and JWT Expiration
 
-You can customize the cookie lifetimes by setting the following environment variables:
+You can customize authentication and cookie settings by setting the following environment variables in your `.env` file:
 
 ```env
-# Access Token Configuration
-ACCESS_TOKEN_EXPIRES_IN=1h  # Default: 1 hour
-COOKIE_ACCESS_TOKEN_MAX_AGE=3600000  # Default: 3600000 (1 hour in milliseconds)
+# JWT Configuration
+JWT_SECRET=your_jwt_secret
+JWT_REFRESH_SECRET=your_jwt_refresh_secret
+JWT_ACCESS_TOKEN_EXPIRES_IN=1h      # Default: 1 hour (used for JWT access token)
+JWT_REFRESH_TOKEN_EXPIRES_IN=1d     # Default: 1 day (used for JWT refresh token)
 
-# Refresh Token Configuration
-REFRESH_TOKEN_EXPIRES_IN=7d  # Default: 7 days
-COOKIE_REFRESH_TOKEN_MAX_AGE=604800000  # Default: 604800000 (7 days in milliseconds)
+# Cookie Configuration (maxAge is a multiplier, in hours/days)
+COOKIE_ACCESS_TOKEN_MAX_AGE=1       # Default: 1 (multiplied by 1 hour)
+COOKIE_REFRESH_TOKEN_MAX_AGE=1      # Default: 1 (multiplied by 1 day)
+
+# Password Hashing
+USERS_PASSWORD_ENCRYPTION_ROUNDS=10 # Default: 10 (bcrypt salt rounds)
 ```
 
-Note: Both string format (e.g., '1h', '7d') and millisecond values are supported. The string format is used for JWT token expiration, while the millisecond values are used for cookie expiration.
+- The string format variables (`JWT_ACCESS_TOKEN_EXPIRES_IN`, `JWT_REFRESH_TOKEN_EXPIRES_IN`) are used for JWT token expiration (e.g., '1h', '1d').
+- The integer values (`COOKIE_ACCESS_TOKEN_MAX_AGE`, `COOKIE_REFRESH_TOKEN_MAX_AGE`) are multipliers for the base time (1 hour or 1 day) for cookie expiration.
+- Cookie names are set in code and default to `access_token` and `refresh_token` but can be changed in `envConfig.auth.cookies` if needed.
 
-If you configure the cookie lifetimes through environment variables make sure to check this file [auth-session-constants](src/modules/auth-session/auth-session-constants.ts)
+**Note:** All authentication-related configuration is now managed in code via the `envConfig.auth` object. There is no longer a separate `auth-session.config.ts` or constants file.
 
 ## 🔧 Available Scripts
 
