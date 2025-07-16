@@ -1,12 +1,23 @@
-import { Container, Typography, Box, Button, Paper, Avatar, Grid } from '@mui/material'
-import { AccountCircle as AccountIcon, Edit as EditIcon } from '@mui/icons-material'
+import {
+  Container,
+  Typography,
+  Box,
+  Button,
+  Paper,
+  Avatar,
+  Grid,
+} from "@mui/material";
+import {
+  AccountCircle as AccountIcon,
+  Edit as EditIcon,
+} from "@mui/icons-material";
 
 const UserAccountPage = () => {
   return (
     <Container maxWidth="md">
       <Box sx={{ my: 4 }}>
         <Paper elevation={3} sx={{ p: 4 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+          <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
             <Avatar sx={{ width: 80, height: 80, mr: 2 }}>
               <AccountIcon sx={{ fontSize: 40 }} />
             </Avatar>
@@ -19,7 +30,6 @@ const UserAccountPage = () => {
               </Typography>
             </Box>
           </Box>
-          
           <Grid container spacing={3}>
             <Grid size={{ xs: 12, md: 6 }}>
               <Typography variant="h6" gutterBottom>
@@ -39,7 +49,7 @@ const UserAccountPage = () => {
                 Edit Profile
               </Button>
             </Grid>
-            
+
             <Grid size={{ xs: 12, md: 6 }}>
               <Typography variant="h6" gutterBottom>
                 Account Settings
@@ -52,11 +62,7 @@ const UserAccountPage = () => {
               >
                 Change Password
               </Button>
-              <Button
-                variant="outlined"
-                color="secondary"
-                fullWidth
-              >
+              <Button variant="outlined" color="secondary" fullWidth>
                 Delete Account
               </Button>
             </Grid>
@@ -64,7 +70,7 @@ const UserAccountPage = () => {
         </Paper>
       </Box>
     </Container>
-  )
-}
+  );
+};
 
-export default UserAccountPage 
+export default UserAccountPage;
