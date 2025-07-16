@@ -90,7 +90,6 @@ const SignInPage = () => {
               type="submit"
               fullWidth
               variant="contained"
-              disableElevation
               startIcon={<LoginIcon />}
               sx={{ mt: 3, mb: 2 }}
               disabled={isLoading}

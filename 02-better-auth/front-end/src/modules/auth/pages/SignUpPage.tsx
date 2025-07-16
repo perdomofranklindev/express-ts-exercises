@@ -176,7 +176,6 @@ const SignUpPage = () => {
               startIcon={<PersonAddIcon />}
               sx={{ mt: 3, mb: 2 }}
               disabled={isLoading}
-              disableElevation
             >
               {isLoading ? "Signing Up..." : "Sign Up"}
             </Button>
