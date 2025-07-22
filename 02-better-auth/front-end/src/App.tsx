@@ -7,7 +7,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 
 function App() {
   return (
-    <ThemeProvider theme={theme} defaultMode="light">
+    <ThemeProvider theme={theme} defaultMode="dark">
       <CssBaseline enableColorScheme />
       <SnackbarProvider>
         <RouterProvider router={router} />
