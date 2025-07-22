@@ -12,9 +12,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link as RouterLink } from "react-router-dom";
-import authClient from "../../../shared/auth/auth-client";
 import { signInSchema, type SignInFormData } from "../schemas/signin-schema";
 import { useSnackbar } from "../../../shared/components/Snackbar/useSnackbar";
+import authClient from "../../../shared/auth/auth-client";
 
 const SignInPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -72,6 +72,7 @@ const SignInPage = () => {
               type="email"
               margin="normal"
               required
+              autoComplete="username"
               {...register("email")}
               error={!!errors.email}
               helperText={errors.email?.message}
@@ -82,6 +83,7 @@ const SignInPage = () => {
               type="password"
               margin="normal"
               required
+              autoComplete="current-password"
               {...register("password")}
               error={!!errors.password}
               helperText={errors.password?.message}

@@ -118,6 +118,7 @@ const SignUpPage = () => {
               label="Email"
               type="email"
               margin="normal"
+              autoComplete="username"
               {...register("email")}
               error={!!errors.email}
               helperText={errors.email?.message}
@@ -128,6 +129,7 @@ const SignUpPage = () => {
               label="Password"
               type={showPassword ? "text" : "password"}
               margin="normal"
+              autoComplete="new-password"
               {...register("password")}
               error={!!errors.password}
               helperText={errors.password?.message}
@@ -151,6 +153,7 @@ const SignUpPage = () => {
               label="Confirm Password"
               type={showConfirmPassword ? "text" : "password"}
               margin="normal"
+              autoComplete="new-password"
               {...register("confirmPassword")}
               error={!!errors.confirmPassword}
               helperText={errors.confirmPassword?.message}
