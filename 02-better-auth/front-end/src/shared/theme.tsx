@@ -102,19 +102,11 @@ export const theme = createTheme({
         root: {
           borderRadius: 20, // Pill-shaped buttons
           padding: "6px 16px",
-          boxShadow: "none",
-              '&:hover': {
-            transform: 'translateY(-1px)',
-          },
         },
         contained: {
           boxShadow: "none",
-          transition: "transform 0.3s ease",
-
-          "&:active": {
-            transform: "scale(0.98)",
-          },
         },
+        disableElevation: true,
       },
     },
     MuiAppBar: {
