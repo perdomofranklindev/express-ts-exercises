@@ -1,10 +1,11 @@
-import { ApiResponse } from '@shared/types/api-response.types';
+import { BetterAuthError, ErrorCodes, ErrorCodesTyped } from '@shared/types/api-response.types';
 import { handleTryCatch } from '@shared/utils/try-catch-utils';
 import { Request, Response } from 'express';
-import { SignInBody, SignUpBody } from './auth.types';
+import { SignInBody, SignOutResponse, SignUpBody, SignUpResponse } from './auth.types';
 import { auth } from '@auth';
 import { fromNodeHeaders } from 'better-auth/node';
 import { AuthUtils } from './auth.utils';
+import { ApiResponse } from '@shared/types/api-response.utils';
 
 export class AuthController {
   static async signUp(
@@ -20,24 +21,24 @@ export class AuthController {
 
     if (existingUserError) {
       console.error('Error checking existing user:', existingUserError);
-      return res
-        .status(500)
-        .json(
-          new ApiResponse(
-            500,
-            null,
-            'An internal server error occurred while checking user existence'
-          )
-        );
+      return res.status(500).json(
+        ApiResponse.error({
+          message: 'An internal server error occurred while checking user existence',
+          code: ErrorCodes.FAILED_TO_CREATE_USER,
+        })
+      );
     }
 
     if (existingUser) {
-      return res
-        .status(409)
-        .json(new ApiResponse(409, null, 'User with this email already exists'));
+      return res.status(409).json(
+        ApiResponse.error({
+          message: 'User with this email already exists',
+          code: ErrorCodes.USER_WITH_THIS_EMAIL_ALREADY_EXITS,
+        })
+      );
     }
 
-    const [user, error] = await handleTryCatch(
+    const [data, error] = await handleTryCatch<SignUpResponse, BetterAuthError>(
       auth.api.signUpEmail({
         body: {
           email,
@@ -52,21 +53,22 @@ export class AuthController {
     );
 
     if (error) {
-      return res.status(400).json(new ApiResponse(400, null, 'Registration failed'));
+      return res.status(error?.statusCode || 400).json(
+        ApiResponse.error({
+          message: error.body.message,
+          code: error.body.code as ErrorCodesTyped,
+        })
+      );
     }
 
-    if (!user) {
-      return res.status(400).json(new ApiResponse(400, null, 'Failed to create user'));
-    }
-
-    return res.status(201).json(new ApiResponse(201, user, 'User registered successfully'));
+    return res.status(201).json(ApiResponse.success(data));
   }
 
   static async signIn(
     req: Request<Record<string, never>, unknown, SignInBody>,
     res: Response
   ): Promise<Response> {
-    const [result, error] = await handleTryCatch(
+    const [result, error] = await handleTryCatch<globalThis.Response, BetterAuthError>(
       auth.api.signInEmail({
         body: req.body,
         asResponse: true,
@@ -74,16 +76,21 @@ export class AuthController {
     );
 
     if (error) {
-      console.error('Unexpected error during sign-in:', error);
-      return res
-        .status(500)
-        .json(new ApiResponse(500, null, 'An internal server error occurred during sign-in.'));
+      return res.status(error.statusCode).json(
+        ApiResponse.error({
+          message: error.body.message,
+          code: error.body.code as ErrorCodesTyped,
+        })
+      );
     }
 
     if (!result?.ok) {
-      return res
-        .status(result ? result.status : 500)
-        .json(new ApiResponse(result ? result.status : 500, null, 'Authentication failed'));
+      return res.status(result?.status || 500).json(
+        ApiResponse.error({
+          message: 'Unexpected server error',
+          code: ErrorCodes.UNEXPECTED_SERVER_ERROR,
+        })
+      );
     }
 
     // Transfer headers (including Set-Cookie) from Better Auth's Response to Express's Response
@@ -94,52 +101,34 @@ export class AuthController {
     res.status(result.status);
     const responseBody = await result.json();
 
-    return res.json(new ApiResponse(result.status, responseBody, 'Sign in successful'));
-  }
-
-  static async getSession(req: Request, res: Response): Promise<Response> {
-    const [session, error] = await handleTryCatch(
-      auth.api.getSession({
-        headers: fromNodeHeaders(req.headers),
-      })
-    );
-
-    if (error) {
-      return res
-        .status(500)
-        .json(
-          new ApiResponse(
-            500,
-            null,
-            error.message || 'An internal server error occurred while fetching the session.'
-          )
-        );
-    }
-
-    if (!session) {
-      return res.status(401).json(new ApiResponse(401, null, 'No active session found'));
-    }
-
-    return res.json(new ApiResponse(200, session, 'Session fetched successfully'));
+    return res.json(ApiResponse.success(responseBody));
   }
 
   static async signOut(req: Request, res: Response): Promise<Response> {
-    const [result, error] = await handleTryCatch(
+    const [result, error] = await handleTryCatch<SignOutResponse, BetterAuthError>(
       auth.api.signOut({
         headers: fromNodeHeaders(req.headers),
       })
     );
 
     if (error) {
-      return res
-        .status(500)
-        .json(new ApiResponse(500, null, 'An internal server error occurred during sign out.'));
+      return res.status(error.statusCode).json(
+        ApiResponse.error({
+          message: error.body.message,
+          code: error.body.code,
+        })
+      );
     }
 
     if (!result?.success) {
-      return res.status(400).json(new ApiResponse(400, null, 'Sign out failed'));
+      return res.status(400).json(
+        ApiResponse.error({
+          message: 'Sign out failed',
+          code: ErrorCodes.FAILED_TO_GET_SESSION,
+        })
+      );
     }
 
-    return res.json(new ApiResponse(200, result, 'Sign out successful'));
+    return res.json(ApiResponse.success(result));
   }
 }

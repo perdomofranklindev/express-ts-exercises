@@ -11,7 +11,11 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
-  secret: envConfig.betterAuthSecret,
+  secret: envConfig.betterAuth.secret,
+  session: {
+    expiresIn: 60 * 60 * 24 * envConfig.betterAuth.session.expiresIn,
+    updateAge: 60 * 60 * 24 * envConfig.betterAuth.session.updateAge,
+  },
   user: {
     additionalFields: {
       firstName: {

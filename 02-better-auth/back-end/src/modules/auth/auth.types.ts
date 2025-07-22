@@ -1,4 +1,5 @@
 import { User } from '@prisma/generated/client';
+import { User as BetterAuthUser } from 'better-auth/types';
 
 export type SignUpBody = Pick<User, 'email' | 'name' | 'firstName' | 'lastName' | 'username'> & {
   password: string;
@@ -27,4 +28,17 @@ export interface SignOutResponse {
 export interface SessionResponse {
   user: AuthUser;
   expires: Date;
+}
+
+// Sign-up email response
+
+export interface SignUpResponse {
+  token: string | null;
+  user: BetterAuthUser;
+}
+
+// Sign-out response.
+
+export interface SignOutResponse {
+  success: boolean;
 }
