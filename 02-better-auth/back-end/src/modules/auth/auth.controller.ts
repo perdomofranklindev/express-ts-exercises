@@ -158,6 +158,8 @@ export class AuthController {
       );
     }
 
-    return res.json(ApiResponse.success(result));
+    return res.json({
+      ...result,
+    });
   }
 }

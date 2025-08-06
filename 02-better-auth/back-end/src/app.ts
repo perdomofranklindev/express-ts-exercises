@@ -2,10 +2,11 @@ import express, { Application, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
-import { authRouter } from '@modules/auth/auth.routes';
 import { userRouter } from '@modules/user/user.routes';
 import { envConfig } from '@shared/config/env.config';
 import { authMiddleware } from '@modules/auth/auth.middleware';
+import { auth } from '@auth';
+import { toNodeHandler } from 'better-auth/node';
 
 // Create Express application
 const app: Application = express();
@@ -38,7 +39,8 @@ app.get('/', (_req: Request, res: Response) => {
   res.json({ message: 'Express + TypeScript Server' });
 });
 
-app.use('/api/auth', authRouter);
+app.all('/api/auth/*', toNodeHandler(auth)); // For ExpressJS v4
+// app.use('/api/auth', authRouter); // <- Manual way to handle auth routes using better-auth.
 app.use(authMiddleware); // <- From here the endpoints below are protected.
 app.use('/api/user', userRouter);
 
