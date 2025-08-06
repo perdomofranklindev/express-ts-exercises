@@ -8,17 +8,16 @@ import {
   Link,
 } from "@mui/material";
 import { Login as LoginIcon } from "@mui/icons-material";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link as RouterLink } from "react-router-dom";
 import { signInSchema, type SignInFormData } from "../schemas/signin-schema";
 import { useSnackbar } from "../../../shared/components/Snackbar/useSnackbar";
-import authClient from "../../../shared/auth/auth-client";
+import { useAuth } from "../../../shared/auth";
 
 const SignInPage = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const { showSnackbar } = useSnackbar();
+  const { signIn, isLoading } = useAuth();
 
   const {
     register,
@@ -35,22 +34,14 @@ const SignInPage = () => {
 
   const onSubmit = async (data: SignInFormData) => {
     try {
-      setIsLoading(true);
-      await authClient.signIn.email({
-        email: data.email,
-        password: data.password,
-      });
-
+      await signIn(data.email, data.password);
       showSnackbar("Successfully signed in!", "success");
-      reset(); // Clear form on success
-      // Handle successful sign in (redirect, etc.)
-    } catch (error) {
+      reset({ email: "", password: "" });
+    } catch (err) {
       showSnackbar(
-        error instanceof Error ? error.message : "Sign in failed",
+        err instanceof Error ? err.message : "Sign in failed",
         "error"
       );
-    } finally {
-      setIsLoading(false);
     }
   };
 

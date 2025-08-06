@@ -17,17 +17,16 @@ import {
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import { signUpSchema, type SignUpFormData } from "../schemas/signup-schema";
 import { useSnackbar } from "../../../shared/components/Snackbar/useSnackbar";
-import authClient from "../../../shared/auth/auth-client";
+import { useAuth } from "../../../shared/auth";
 
 const SignUpPage = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { showSnackbar } = useSnackbar();
-  const navigate = useNavigate();
+  const { signUp, isLoading } = useAuth();
 
   const {
     register,
@@ -55,30 +54,14 @@ const SignUpPage = () => {
 
   const onSubmit = async (data: SignUpFormData) => {
     try {
-      setIsLoading(true);
-      await authClient.signUp.email({
-        email: data.email,
-        password: data.password,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        name: data.firstName,
-      });
-
-      // Show success message and redirect
+      await signUp(data.email, data.password, data.firstName, data.lastName);
       showSnackbar("Successfully signed up!", "success");
       reset();
-
-      // Redirect to sign-in page after a short delay
-      setTimeout(() => {
-        navigate("/auth/sign-in");
-      }, 1500);
     } catch (error) {
       showSnackbar(
         error instanceof Error ? error.message : "Sign up failed",
         "error"
       );
-    } finally {
-      setIsLoading(false);
     }
   };
 
