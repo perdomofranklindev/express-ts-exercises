@@ -1,13 +1,13 @@
 import { RouterProvider } from 'react-router-dom';
 import { router } from './shared/routes/router';
-import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './shared/theme';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { SnackbarProvider } from './shared/components/Snackbar/SnackbarProvider';
 import { AuthProvider } from './modules/auth/AuthProvider';
+import Box from '@mui/material/Box';
+import CssBaseline from '@mui/material/CssBaseline';
 
 const queryClient = new QueryClient({
   defaultOptions: {
