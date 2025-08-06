@@ -1,6 +1,6 @@
 import { createAuthClient } from "better-auth/react";
 import { inferAdditionalFields } from "better-auth/client/plugins";
-import { envConfig } from "../config/env-config";
+import { envConfig } from "../../config/env-config";
 
 // Create the auth client
 export const authClient = createAuthClient({
