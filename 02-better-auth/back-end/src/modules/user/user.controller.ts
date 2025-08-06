@@ -21,6 +21,7 @@ export class UserController {
         })
       );
     }
+
     if (!session?.user) {
       return res.status(404).json(
         ApiResponse.error({
@@ -29,6 +30,7 @@ export class UserController {
         })
       );
     }
+
     return res.json(ApiResponse.success(session.user));
   }
 }

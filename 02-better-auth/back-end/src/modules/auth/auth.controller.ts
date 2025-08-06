@@ -131,4 +131,33 @@ export class AuthController {
 
     return res.json(ApiResponse.success(result));
   }
+
+  // get-session
+  static async getSession(req: Request, res: Response): Promise<Response> {
+    const [result, error] = await handleTryCatch(
+      auth.api.getSession({
+        headers: fromNodeHeaders(req.headers),
+      })
+    );
+
+    if (error) {
+      return res.status(500).json(
+        ApiResponse.error({
+          message: error.message || 'Internal server error',
+          code: ErrorCodes.FAILED_TO_GET_SESSION,
+        })
+      );
+    }
+
+    if (!result?.user) {
+      return res.status(404).json(
+        ApiResponse.error({
+          message: 'User not found',
+          code: ErrorCodes.USER_NOT_FOUND,
+        })
+      );
+    }
+
+    return res.json(ApiResponse.success(result));
+  }
 }
