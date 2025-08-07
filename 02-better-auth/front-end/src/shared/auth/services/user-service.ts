@@ -3,11 +3,16 @@ import api from './axios-instance';
 // Define the user type based on backend response (customize as needed)
 export interface User {
   id: string;
+  name: string;
   email: string;
-  firstName?: string;
-  lastName?: string;
-  username?: string;
-  // Add other fields as needed
+  emailVerified: boolean;
+  image: string | null;
+  createdAt: string;
+  updatedAt: string;
+  username: string | null;
+  displayUsername: string | null;
+  firstName: string;
+  lastName: string;
 }
 
 /**
