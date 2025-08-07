@@ -26,6 +26,12 @@ app.use(
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser());
+
+// Look at the official docs for more details on how to use Better Auth with ExpressJS
+// https://www.better-auth.com/docs/integrations/express
+
+app.all('/api/auth/*', toNodeHandler(auth)); // For ExpressJS v4
+// Mount express json middleware after Better Auth handler
 app.use(express.json());
 
 // Request logging middleware
@@ -39,8 +45,7 @@ app.get('/', (_req: Request, res: Response) => {
   res.json({ message: 'Express + TypeScript Server' });
 });
 
-app.all('/api/auth/*', toNodeHandler(auth)); // For ExpressJS v4
-// app.use('/api/auth', authRouter); // <- Manual way to handle auth routes using better-auth.
+// app.use('/api/auth', authRouter); // <- Manual way to handle auth service routes using better-auth.
 app.use(authMiddleware); // <- From here the endpoints below are protected.
 app.use('/api/user', userRouter);
 
