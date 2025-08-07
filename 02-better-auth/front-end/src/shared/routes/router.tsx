@@ -1,15 +1,22 @@
-import HomePage from "../../modules/home/pages/HomePage";
-import SignInPage from "../../modules/auth/pages/SignInPage";
-import SignUpPage from "../../modules/auth/pages/SignUpPage";
-import UserAccountPage from "../../modules/user/pages/UserAccountPage";
+import { Suspense, lazy } from "react";
+import Loader from "../components/Loader";
+const HomePage = lazy(() => import("../../modules/home/pages/HomePage"));
+const SignInPage = lazy(() => import("../../modules/auth/pages/SignInPage"));
+const SignUpPage = lazy(() => import("../../modules/auth/pages/SignUpPage"));
+const UserAccountPage = lazy(
+  () => import("../../modules/user/pages/UserAccountPage")
+);
 import { createBrowserRouter, Outlet } from "react-router-dom";
 import { AuthProvider, ProtectedRoute, PublicRoute } from "../auth";
+
 
 export const router = createBrowserRouter([
   {
     element: (
       <AuthProvider>
-        <Outlet />
+        <Suspense fallback={<Loader />}>
+          <Outlet />
+        </Suspense>
       </AuthProvider>
     ),
     children: [
@@ -23,11 +30,19 @@ export const router = createBrowserRouter([
         children: [
           {
             path: "sign-in",
-            element: <SignInPage />,
+            element: (
+              <Suspense fallback={<Loader />}>
+                <SignInPage />
+              </Suspense>
+            ),
           },
           {
             path: "sign-up",
-            element: <SignUpPage />,
+            element: (
+              <Suspense fallback={<Loader />}>
+                <SignUpPage />
+              </Suspense>
+            ),
           },
         ],
       },
@@ -41,14 +56,22 @@ export const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <HomePage />,
+            element: (
+              <Suspense fallback={<Loader />}>
+                <HomePage />
+              </Suspense>
+            ),
           },
           {
             path: "user",
             children: [
               {
                 path: "account",
-                element: <UserAccountPage />,
+                element: (
+                  <Suspense fallback={<Loader />}>
+                    <UserAccountPage />
+                  </Suspense>
+                ),
               },
             ],
           },
