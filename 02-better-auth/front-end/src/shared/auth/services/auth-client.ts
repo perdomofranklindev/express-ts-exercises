@@ -14,6 +14,14 @@ export const authClient = createAuthClient({
         lastName: {
           type: "string",
         },
+        username: {
+          type: "string",
+          required: false,
+        },
+        displayUsername: {
+          type: "string",
+          required: false,
+        }
       },
     }),
   ],
