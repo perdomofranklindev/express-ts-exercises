@@ -200,7 +200,6 @@ const HomePage = () => {
                     sx={{
                       borderRadius: 3,
                       py: 1.5,
-  
                     }}
                     onClick={() => navigate("/user/account")}
                   >
