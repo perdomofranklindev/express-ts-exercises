@@ -10,7 +10,12 @@ export default defineConfig({
         manualChunks: {
           // Split vendor chunks
           'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-mui': ['@mui/material', '@mui/icons-material', '@emotion/react', '@emotion/styled'],
+          'vendor-mui': [
+            '@mui/material',
+            '@mui/icons-material',
+            '@emotion/react',
+            '@emotion/styled',
+          ],
           'vendor-utils': ['dayjs', 'zod', '@tanstack/react-query'],
         },
         // Ensure chunks are not too large
