@@ -17,6 +17,7 @@ datasource db {
 
 model Webhook {
   id        String        @id @default(uuid())
+  label     String?
   url       String
   eventType WebhookEvents @default(ORDER_CREATED)
   secretKey String
