@@ -1,10 +1,12 @@
 -- CreateTable
-CREATE TABLE "Webhook" (
+CREATE TABLE "EnvironmentEnv" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "url" TEXT NOT NULL,
-    "eventType" TEXT NOT NULL DEFAULT 'ORDER_CREATED',
+    "name" TEXT NOT NULL,
     "secretKey" TEXT NOT NULL,
-    "enabledAt" DATETIME DEFAULT CURRENT_TIMESTAMP,
+    "provider" TEXT,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "EnvironmentEnv_name_key" ON "EnvironmentEnv"("name");
