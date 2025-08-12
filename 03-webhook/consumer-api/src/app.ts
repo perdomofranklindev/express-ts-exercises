@@ -2,7 +2,8 @@ import express, { Application, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import helmet from 'helmet';
-import { webhookRouter } from '@modules/webhooks/webhook-consumer.routes';
+import { webhookConsumerRouter } from '@modules/webhooks/webhook-consumer.routes';
+import { environmentEnvRouter } from '@modules/environment-envs/environment-env.routes';
 
 // Load environment variables
 dotenv.config();
@@ -30,8 +31,8 @@ app.get('/', (_req: Request, res: Response) => {
 });
 
 // Webhook
-
-app.use('/api/webhook', webhookRouter);
+app.use('/api/environment-variables', environmentEnvRouter);
+app.use('/api/webhook', webhookConsumerRouter);
 
 // 404 handler
 app.use((_req: Request, res: Response) => {

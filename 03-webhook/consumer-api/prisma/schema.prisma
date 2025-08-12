@@ -15,18 +15,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Webhook {
-  id        String        @id @default(uuid())
-  url       String
-  eventType WebhookEvents @default(ORDER_CREATED)
+// This is just an example about how should work the webhooks,
+// in a real system you must always store the environment variables in safe places.
+model EnvironmentEnv {
+  id        String   @id @default(uuid())
+  name      String   @unique
   secretKey String
-  enabledAt DateTime?     @default(now())
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
-}
-
-enum WebhookEvents {
-  ORDER_CREATED
-  ORDER_UPDATED
-  ORDER_DELETED
+  provider  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
