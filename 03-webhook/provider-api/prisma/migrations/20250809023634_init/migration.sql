@@ -1,0 +1,10 @@
+-- CreateTable
+CREATE TABLE "Webhook" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "url" TEXT NOT NULL,
+    "eventType" TEXT NOT NULL DEFAULT 'ORDER_CREATED',
+    "secretKey" TEXT NOT NULL,
+    "enabledAt" DATETIME DEFAULT CURRENT_TIMESTAMP,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);
