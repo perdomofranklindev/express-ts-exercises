@@ -1,9 +1,8 @@
 import express, { Router } from 'express';
+import { WebhookConsumerController } from './webhook-consumer.controller';
 
 const router: Router = express.Router();
 
-// TODO: Implement the service to be consumed by the provider system.
-
-// router.post('/service', WebhookConsumerController.createWebhook);
+router.post('/consume', WebhookConsumerController.consume);
 
 export { router as webhookConsumerRouter };
