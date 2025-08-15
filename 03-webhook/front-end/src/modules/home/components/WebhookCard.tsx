@@ -1,6 +1,6 @@
 import React from "react";
 
-// Material UI Components
+// MUI Components
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -20,7 +20,7 @@ import CardHeader from '@mui/material/CardHeader';
 import CardActions from '@mui/material/CardActions';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
-// Icons
+// MUI Icons
 
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
