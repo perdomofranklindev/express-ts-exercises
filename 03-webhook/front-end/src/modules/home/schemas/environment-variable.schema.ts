@@ -12,4 +12,4 @@ export const EnvVarFormSchema = z.object({
   provider: z.string().optional(),
 });
 
-export type EnvVarFormValues = z.infer<typeof EnvVarFormSchema>;
+export type EnvVarFormData = z.infer<typeof EnvVarFormSchema>;
