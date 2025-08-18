@@ -1,363 +1,199 @@
-import {
-  createTheme,
-  type ColorSystemOptions,
-  type ThemeOptions,
-} from "@mui/material/styles";
+import { createTheme, type Shadows } from "@mui/material/styles";
 
-// Extend the default theme interface to include custom properties
-declare module "@mui/material/styles" {
-  interface Palette {
-    accent: {
-      pink: string;
-      cyan: string;
-      orange: string;
-      success: string;
-      warning: string;
-      error: string;
-    };
-    gradients: {
-      primary: string;
-      secondary: string;
-      success: string;
-      warning: string;
-      dark: string;
-    };
-  }
-
-  interface PaletteOptions {
-    accent?: {
-      pink?: string;
-      cyan?: string;
-      orange?: string;
-      success?: string;
-      warning?: string;
-      error?: string;
-    };
-    gradients?: {
-      primary?: string;
-      secondary?: string;
-      success?: string;
-      warning?: string;
-      dark?: string;
-    };
-  }
-
-  interface TypeBackground {
-    gradient: string;
-    cardPrimary: string;
-    cardSecondary: string;
-  }
-}
-
-// Color palette constants
-const colorTokens = {
-  primary: {
-    50: "#f3f0ff",
-    100: "#e9e2ff",
-    200: "#d6ccff",
-    300: "#b8a5ff",
-    400: "#9575ff",
-    500: "#7c3aed",
-    600: "#6d28d9",
-    700: "#5b21b6",
-    800: "#4c1d95",
-    900: "#3c1361",
-  },
-  secondary: {
-    50: "#ecfdf5",
-    100: "#d1fae5",
-    200: "#a7f3d0",
-    300: "#6ee7b7",
-    400: "#34d399",
-    500: "#10b981",
-    600: "#059669",
-    700: "#047857",
-    800: "#065f46",
-    900: "#064e3b",
-  },
-  neutral: {
-    0: "#ffffff",
-    50: "#f8fafc",
-    100: "#f1f5f9",
-    200: "#e2e8f0",
-    300: "#cbd5e1",
-    400: "#94a3b8",
-    500: "#64748b",
-    600: "#475569",
-    700: "#334155",
-    800: "#1e293b",
-    900: "#0f172a",
-    950: "#020617",
-  },
-  accent: {
-    pink: "#ff6b9d",
-    cyan: "#06b6d4",
-    orange: "#f59e0b",
-    success: "#10b981",
-    warning: "#f59e0b",
-    error: "#ef4444",
-  },
-} as const;
-
-// Gradient definitions
-const gradients = {
-  primary: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-  secondary: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
-  success: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
-  warning: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
-  dark: "linear-gradient(135deg, #1e293b 0%, #334155 100%)",
-} as const;
-
-// Typography configuration
-const typography = {
-  fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-  h1: {
-    fontSize: "2.5rem",
-    fontWeight: 700,
-    lineHeight: 1.2,
-  },
-  h2: {
-    fontSize: "2rem",
-    fontWeight: 600,
-    lineHeight: 1.3,
-  },
-  h3: {
-    fontSize: "1.5rem",
-    fontWeight: 600,
-    lineHeight: 1.4,
-  },
-  h4: {
-    fontSize: "1.25rem",
-    fontWeight: 600,
-    lineHeight: 1.4,
-  },
-  h5: {
-    fontSize: "1.125rem",
-    fontWeight: 500,
-    lineHeight: 1.4,
-  },
-  h6: {
-    fontSize: "1rem",
-    fontWeight: 500,
-    lineHeight: 1.4,
-  },
-  body1: {
-    fontSize: "1rem",
-    lineHeight: 1.6,
-  },
-  body2: {
-    fontSize: "0.875rem",
-    lineHeight: 1.6,
-  },
-  caption: {
-    fontSize: "0.75rem",
-    lineHeight: 1.4,
-  },
-} as const;
-
-interface ColorSchemes {
-  light?: boolean | ColorSystemOptions | undefined;
-  dark?: boolean | ColorSystemOptions | undefined;
-}
-
-const colorSchemes: ColorSchemes = {
-  light: {
-    palette: {
-      mode: "light",
-      primary: {
-        main: colorTokens.primary[500],
-        light: colorTokens.primary[300],
-        dark: colorTokens.primary[700],
-        contrastText: colorTokens.neutral[0],
+export const theme = createTheme({
+  colorSchemes: {
+    light: {
+      palette: {
+        mode: "light",
+        primary: {
+          light: "#8B5FBF",
+          main: "#6C3FB5",
+          dark: "#4A2A7A",
+          contrastText: "#FFFFFF",
+        },
+        secondary: {
+          light: "#FF9EC7",
+          main: "#FF6BB3",
+          dark: "#E04A96",
+          contrastText: "#FFFFFF",
+        },
+        error: {
+          light: "#FF6B6B",
+          main: "#F44336",
+          dark: "#D32F2F",
+          contrastText: "#FFFFFF",
+        },
+        warning: {
+          light: "#FFB74D",
+          main: "#FF9800",
+          dark: "#F57C00",
+          contrastText: "#FFFFFF",
+        },
+        info: {
+          light: "#64B5F6",
+          main: "#2196F3",
+          dark: "#1976D2",
+          contrastText: "#FFFFFF",
+        },
+        success: {
+          light: "#34DEDF", // Airy, bright teal
+          main: "#03ADAF", // Primary success tone
+          dark: "#028588", // Substantial deep teal
+          contrastText: "#FFFFFF",
+        },
+        text: {
+          primary: "#2A2352", // Deepened purple (more sophisticated)
+          secondary: "#5E5699", // Muted purple with gray undertones
+          disabled: "#8A85B0",
+        },
+        background: {
+          default: "#F5F4FF",
+          paper: "#FFFFFF",
+          gradient:
+            "linear-gradient(135deg, #E6E4FF 0%, #D4D1FF 50%, #C8C2FF 100%)",
+          brand:
+            "linear-gradient(135deg, #8B5FBF 0%, #6C3FB5 50%, #4A2A7A 100%)",
+        },
+        action: {
+          hover: "rgba(108, 63, 181, 0.08)",
+          selected: "rgba(108, 63, 181, 0.12)",
+          disabled: "rgba(108, 63, 181, 0.26)",
+          disabledBackground: "rgba(108, 63, 181, 0.12)",
+        },
+        gradients: {
+          primary:
+            "linear-gradient(135deg, #8B5FBF 0%, #6C3FB5 50%, #4A2A7A 100%)",
+          secondary:
+            "linear-gradient(135deg, #FF9EC7 0%, #FF6BB3 50%, #E04A96 100%)",
+          success:
+            "linear-gradient(135deg, #34DEDF 0%, #03ADAF 50%, #028588 100%)",
+          warning:
+            "linear-gradient(135deg, #FFB74D 0%, #FF9800 50%, #F57C00 100%)",
+          dark: "linear-gradient(135deg, #3A3A6B 0%, #2C2C54 50%, #1E1E3F 100%)",
+        },
       },
-      secondary: {
-        main: colorTokens.secondary[500],
-        light: colorTokens.secondary[300],
-        dark: colorTokens.secondary[700],
-        contrastText: colorTokens.neutral[0],
+    },
+    dark: {
+      palette: {
+        mode: "dark",
+        primary: {
+          light: "#9C7ED6",
+          main: "#6C3FB5",
+          dark: "#5A3494",
+          contrastText: "#FFFFFF",
+        },
+        secondary: {
+          light: "#FF9EC7",
+          main: "#FF6BB3",
+          dark: "#E04A96",
+          contrastText: "#FFFFFF",
+        },
+        error: {
+          light: "#EF5350",
+          main: "#F44336",
+          dark: "#C62828",
+          contrastText: "#FFFFFF",
+        },
+        warning: {
+          light: "#FF9800",
+          main: "#ED6C02",
+          dark: "#E65100",
+          contrastText: "#FFFFFF",
+        },
+        info: {
+          light: "#03DAC6",
+          main: "#0DCAF0",
+          dark: "#0288D1",
+          contrastText: "#FFFFFF",
+        },
+        success: {
+          light: "#26C6C8", // More vibrant in dark
+          main: "#03ADAF", // Consistent across themes
+          dark: "#017D7F", // Deeper for contrast
+          contrastText: "#FFFFFF",
+        },
+        text: {
+          primary: "#F0EDFF", // Soft lavender-white
+          secondary: "#C5C0FF", // Gentle purple tint
+          disabled: "#7E79AA",
+        },
+        background: {
+          default: "#2C2C54",
+          paper: "#3A3A6B",
+          gradient:
+            "linear-gradient(135deg, #2C2C54 0%, #3A3A6B 50%, #4A4A7C 100%)",
+          brand:
+            "linear-gradient(135deg, #9C7ED6 0%, #6C3FB5 50%, #5A3494 100%)",
+        },
+        action: {
+          hover: "rgba(255, 255, 255, 0.08)",
+          selected: "rgba(255, 255, 255, 0.12)",
+          disabled: "rgba(255, 255, 255, 0.26)",
+          disabledBackground: "rgba(255, 255, 255, 0.12)",
+        },
+        gradients: {
+          primary:
+            "linear-gradient(135deg, #9C7ED6 0%, #6C3FB5 50%, #5A3494 100%)",
+          secondary:
+            "linear-gradient(135deg, #FF9EC7 0%, #FF6BB3 50%, #E04A96 100%)",
+          success:
+            "linear-gradient(135deg, #26C6C8 0%, #03ADAF 50%, #017D7F 100%)",
+          warning:
+            "linear-gradient(135deg, #FF9800 0%, #ED6C02 50%, #E65100 100%)",
+          dark: "linear-gradient(135deg, #4A4A7C 0%, #3A3A6B 50%, #2C2C54 100%)",
+        },
       },
-      background: {
-        default: colorTokens.neutral[50],
-        paper: colorTokens.neutral[0],
-        gradient: gradients.primary,
-        cardPrimary: colorTokens.neutral[0],
-        cardSecondary: colorTokens.neutral[100],
-      },
-      text: {
-        primary: colorTokens.neutral[800],
-        secondary: colorTokens.neutral[500],
-      },
-      divider: colorTokens.neutral[200],
-      action: {
-        hover: `rgba(124, 58, 237, 0.04)`,
-        selected: `rgba(124, 58, 237, 0.08)`,
-        disabled: colorTokens.neutral[300],
-        disabledBackground: colorTokens.neutral[100],
-      },
-      accent: colorTokens.accent,
-      gradients,
     },
   },
-  dark: {
-    palette: {
-      mode: "dark",
-      primary: {
-        main: colorTokens.primary[400],
-        light: colorTokens.primary[200],
-        dark: colorTokens.primary[600],
-        contrastText: colorTokens.neutral[0],
-      },
-      secondary: {
-        main: colorTokens.secondary[400],
-        light: colorTokens.secondary[200],
-        dark: colorTokens.secondary[600],
-        contrastText: colorTokens.neutral[0],
-      },
-      background: {
-        default: colorTokens.neutral[900],
-        paper: colorTokens.neutral[800],
-        gradient: gradients.dark,
-        cardPrimary: colorTokens.neutral[800],
-        cardSecondary: colorTokens.neutral[700],
-      },
-      text: {
-        primary: colorTokens.neutral[50],
-        secondary: colorTokens.neutral[300],
-      },
-      divider: colorTokens.neutral[700],
-      action: {
-        hover: `rgba(124, 58, 237, 0.08)`,
-        selected: `rgba(124, 58, 237, 0.12)`,
-        disabled: colorTokens.neutral[600],
-        disabledBackground: colorTokens.neutral[800],
-      },
-      accent: colorTokens.accent,
-      gradients,
-    },
-  },
-};
-
-// Base theme configuration
-interface UnifiedThemeConfig {
-  colorSchemes: ColorSchemes;
-  typography: typeof typography;
-  shape: {
-    borderRadius: number;
-  };
-  spacing: number;
-  components: ThemeOptions["components"];
-}
-
-const unifiedTheme: UnifiedThemeConfig = {
-  colorSchemes,
-  typography,
+  spacing: 8,
   shape: {
     borderRadius: 4,
   },
-  spacing: 8,
+  shadows: [
+    "none",
+    "0px 1px 2px rgba(108, 63, 181, 0.05)", // Soft primary tint
+    "0px 1px 4px rgba(108, 63, 181, 0.1)", // Consistent with primary palette
+    "0px 2px 8px rgba(108, 63, 181, 0.1)",
+    "0px 3px 12px rgba(108, 63, 181, 0.1)",
+    "0px 4px 16px rgba(108, 63, 181, 0.1)",
+    "0px 6px 20px rgba(108, 63, 181, 0.15)",
+    "0px 8px 24px rgba(108, 63, 181, 0.15)",
+    "0px 10px 28px rgba(108, 63, 181, 0.15)",
+    "0px 12px 32px rgba(108, 63, 181, 0.15)",
+    "0px 14px 36px rgba(108, 63, 181, 0.15)",
+    "0px 16px 40px rgba(108, 63, 181, 0.15)",
+    ...Array(13).fill("0px 20px 50px rgba(108, 63, 181, 0.2)"), // Higher elevations
+  ] as Shadows,
   components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          textTransform: "none",
-          fontWeight: 500,
-          borderRadius: 4,
-          padding: "10px 20px",
-          boxShadow: "none",
-          transition: "all 0.2s ease-in-out",
-          "&:hover": {
-            transform: "translateY(-1px)",
-            boxShadow: "0px 8px 20px rgba(124, 58, 237, 0.3)",
-          },
-        },
-        containedPrimary: {
-          background: gradients.primary,
-          "&:hover": {
-            background: gradients.primary,
-            opacity: 0.9,
-          },
-        },
-        containedSecondary: {
-          background: gradients.secondary,
-          "&:hover": {
-            background: gradients.secondary,
-            opacity: 0.9,
-          },
-        },
-      },
-    },
     MuiCard: {
       styleOverrides: {
-        root: ({ theme }) => ({
-          borderRadius: 16,
-          transition: "all 0.3s ease-in-out",
-          border:
-            theme.palette.mode === "dark"
-              ? "1px solid rgba(255, 255, 255, 0.05)"
-              : "1px solid rgba(0, 0, 0, 0.05)",
-          "&:hover": {
-            transform: "translateY(-4px)",
-            boxShadow:
-              theme.palette.mode === "dark"
-                ? "0px 12px 40px rgba(0, 0, 0, 0.4)"
-                : "0px 12px 40px rgba(0, 0, 0, 0.15)",
-          },
+        root: (props) => ({
+          borderRadius: props.theme.spacing(2),
         }),
       },
     },
-    MuiPaper: {
+    MuiButton: {
       styleOverrides: {
-        root: {
-          backgroundImage: "none",
-        },
+        root: (props) => ({
+          borderRadius: props.theme.spacing(2),
+        }),
       },
     },
-    MuiAppBar: {
+    MuiDialog: {
       styleOverrides: {
-        root: {
-          backgroundColor: "transparent",
-          boxShadow: "none",
-          backdropFilter: "blur(20px)",
-          borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
-        },
-      },
-    },
-    MuiChip: {
-      styleOverrides: {
-        root: {
-          borderRadius: 8,
-          fontWeight: 500,
-        },
-        colorPrimary: {
-          background: gradients.primary,
-          color: colorTokens.neutral[0],
-        },
-        colorSecondary: {
-          background: gradients.success,
-          color: colorTokens.neutral[0],
-        },
+        paper: (props) => ({
+          borderRadius: props.theme.spacing(2),
+        }),
       },
     },
     MuiTextField: {
       styleOverrides: {
-        root: {
+        root: (props) => ({
           "& .MuiOutlinedInput-root": {
-            borderRadius: 12,
-            transition: "all 0.2s ease-in-out",
-            "&:hover": {
-              transform: "translateY(-1px)",
-            },
+            borderRadius: props.theme.spacing(1.5),
           },
-        },
+        }),
       },
     },
   },
-};
-
-export const theme = createTheme({
-  colorSchemes: unifiedTheme.colorSchemes,
-  typography: unifiedTheme.typography,
-  shape: unifiedTheme.shape,
-  spacing: unifiedTheme.spacing,
-  components: unifiedTheme.components,
 });
