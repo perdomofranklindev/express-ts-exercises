@@ -18,7 +18,7 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme} defaultMode="light">
+      <ThemeProvider theme={theme} defaultMode="dark">
         <CssBaseline enableColorScheme />
         <SnackbarProvider>
           <RouterProvider router={router} />
