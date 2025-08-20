@@ -181,10 +181,20 @@ export const theme = createTheme({
     },
     MuiDialog: {
       styleOverrides: {
+        root: {
+          backdropFilter: "blur(20px)",
+        },
         paper: (props) => ({
           borderRadius: props.theme.spacing(2),
         }),
       },
+    },
+    MuiDialogContent: {
+      styleOverrides: {
+        root: ((props) => ({
+          padding:`${props.theme.spacing(4)}!important`,
+        }))
+      }
     },
     MuiTextField: {
       styleOverrides: {
