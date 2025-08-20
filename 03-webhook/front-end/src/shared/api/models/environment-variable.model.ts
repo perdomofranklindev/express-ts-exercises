@@ -3,6 +3,6 @@ export interface EnvironmentVariable {
   name: string;
   secretKey: string;
   provider: string | null;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }

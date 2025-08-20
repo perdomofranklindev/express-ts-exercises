@@ -12,7 +12,7 @@ export interface Webhook {
   url: string;
   eventType: WebhookEvents | WebhookEventsType;
   secretKey: string;
-  enabledAt: Date | null;
-  createdAt: Date;
-  updatedAt: Date;
+  enabledAt: string | null;
+  createdAt: string;
+  updatedAt: string;
 }
