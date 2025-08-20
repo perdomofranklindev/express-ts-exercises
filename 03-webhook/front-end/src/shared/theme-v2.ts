@@ -44,6 +44,7 @@ declare module "@mui/material/styles" {
   }
 
   interface TypeBackground {
+    brand: string;
     gradient: string;
     cardPrimary: string;
     cardSecondary: string;
