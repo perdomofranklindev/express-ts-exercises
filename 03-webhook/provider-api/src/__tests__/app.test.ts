@@ -21,6 +21,7 @@ jest.mock('node-fetch', () => jest.fn());
 
 const mockWebhook: Webhook = {
   id: 'hook-123',
+  label: null,
   url: 'https://example.com/webhook',
   eventType: WebhookEvents.ORDER_CREATED,
   secretKey: 'sec_abcdef123456',
